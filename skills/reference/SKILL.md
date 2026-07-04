@@ -51,7 +51,14 @@ Alongside the implementation, produce a short table (in the PR description or `.
 | {e.g. jitter} | `{ref file:line}` | — | **dropped**: {why} |
 | {e.g. retry trigger} | `{ref file:line}` | `{our file:line}` | **adapted**: {why} |
 
-Every `dropped`/`adapted` row is a decision the user should get to veto — call those out explicitly.
+Every `dropped`/`adapted` row is a decision the user should get to veto — and vetoing must be a paste, not an essay. Under the table, give each such row a pair of **paste-back verdict lines**:
+
+```
+Keep:  jitter stays dropped — {the cost we accepted}
+Flip:  carry jitter over anyway — {what that requires}
+```
+
+The user replies by pasting the lines they choose (or "keep all"). A row's ledger entry closes only when its verdict line has been pasted back or the user says keep-all.
 
 ## Unknowns ledger
 

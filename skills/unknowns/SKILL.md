@@ -106,6 +106,17 @@ Rules for a useful map:
 
 Then **seed the ledger**: every item in the lower three quadrants becomes a numbered `U#` entry in `.unknowns/ledger.md` (⚠ items first). This skill *opens* entries; it rarely closes any — the routed techniques do the closing, and from now on progress is visible as entries flipping to ✅.
 
+**Let the map collect its own corrections.** Validating the map must be a paste, not an essay. Under the map, give paste-back correction lines:
+
+```
+Wrong U4 — {actually: …}
+Promote U7   (this one is ⚠, you underrated it)
+Demote U2    (not actually a concern because …)
+Missing: {an unknown you didn't list}
+```
+
+("map is right" is also a valid reply.) In an HTML map, the same verbs become tap-able chips per item with a composed reply at the bottom. Don't route (Step 4) until the user has confirmed or corrected the map — routing on a wrong map sends them to the wrong technique.
+
 ## Step 4 — Route to the next technique
 
 Recommend based on which quadrant holds the ⚠ items:

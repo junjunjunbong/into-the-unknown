@@ -48,6 +48,12 @@ Keep entries terse. The discipline is *when* (immediately) and *where* (the righ
 ## Wrap-up (end of session)
 
 1. Present the **Deviations** section to the user first — it's the exact list of places reality disagreed with the plan, which is what they must review most carefully. Then Escalations still open, then Follow-ups.
+   Make ruling on each deviation a paste, not an essay — give every DEV a pair of **verdict lines** the user can paste back:
+   ```
+   DEV-3 approve
+   DEV-3 revert — {what to do instead}
+   ```
+   ("approve all" is also a valid reply.) A deviation's ledger entry closes on its verdict, not on being read.
 2. Offer the next steps: `/quiz` to verify their understanding of the change; `/pitch` if they need buy-in.
 3. Meta-signal: if the same *kind* of deviation appears 2+ times (e.g. repeated schema surprises), say so — it means the planning process has a systematic blind spot, and the next `/impl-plan` should inspect that area up front.
 
