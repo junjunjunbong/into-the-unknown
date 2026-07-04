@@ -52,3 +52,11 @@ Alongside the implementation, produce a short table (in the PR description or `.
 | {e.g. retry trigger} | `{ref file:line}` | `{our file:line}` | **adapted**: {why} |
 
 Every `dropped`/`adapted` row is a decision the user should get to veto — call those out explicitly.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: an entry closes when the user confirms the corresponding semantics-map row (carried over / adapted / dropped). Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

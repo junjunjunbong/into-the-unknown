@@ -18,6 +18,7 @@ Your job in this skill: build a concrete unknowns map for THIS task, then route 
 - **Toolbox, not pipeline.** These are techniques to reach for, not stages to complete. Never make the user feel behind for skipping one; the `.unknowns/` artifacts are connective tissue for when techniques compound, not a checklist.
 - **HTML by default for artifacts.** For anything meant to be *reacted to* — prototypes, plans, reports, quizzes — a self-contained HTML page beats markdown at representing it.
 - **The second deliverable is the user's skill.** Reducing and planning for unknowns IS the skill of agentic coding, and it improves by working with Claude. When a pass converts an unknown into something the user can now articulate, point it out — that's them getting better at prompting, which outlasts this task.
+- **A document is not a closed unknown.** An unknown lives in the user's head; writing the answer into a report only moves it into a file. It counts as CLOSED only when the user has articulated or confirmed the answer in their own words. Every skill tracks this in the ledger (below) and ends by reporting the delta — that visible open→closed movement is what "my unknowns are getting filled" feels like.
 
 ## Artifact convention (shared by all into-the-unknown skills)
 
@@ -25,6 +26,7 @@ Artifacts from this plugin's skills accumulate in `.unknowns/` at the repo root,
 
 ```
 .unknowns/
+  ledger.md            ← ALL skills (the spine — see below)
   map.md               ← this skill
   blindspot-<topic>.md ← /blindspot
   brainstorm-<topic>.html
@@ -36,6 +38,24 @@ implementation-notes.md  ← /impl-notes (repo root, per the original article)
 ```
 
 Before starting, check whether `.unknowns/` already has artifacts for this task — if so, read them first and build on them instead of restarting. Ask once whether to gitignore `.unknowns/`; default to adding it to `.gitignore`.
+
+### The ledger (`.unknowns/ledger.md`)
+
+The ledger is the plugin's progress bar: every unknown is a numbered entry with a lifecycle, and every skill opens and closes entries against it.
+
+```markdown
+| #  | Unknown (as a decidable question)        | Kind | Opened by   | Status |
+|----|------------------------------------------|------|-------------|--------|
+| U1 | What does "good" look like for grading?  | UU   | /blindspot  | ✅ closed by teach-back |
+| U2 | Dense tables or airy cards?              | UK   | /unknowns   | ✅ closed by /brainstorm — criterion: dense |
+| U3 | Conflict policy on concurrent edits?     | KU   | /interview  | ⏳ open — default: last-write-wins |
+```
+
+Kinds: `KU` known unknown · `UK` unknown known · `UU` unknown unknown. Rules every skill follows:
+
+1. **Start**: read the ledger (create if missing) and name which open entries this pass targets.
+2. **End — the closing ritual**: report the delta in chat, explicitly: `Closed: U2 (criterion voiced) · Opened: U9 · Still open: U3 (default: last-write-wins)`. Then update the file. Never end a skill without this line.
+3. **Closing rule**: an entry closes only on the *user's* articulation or confirmation — a decision they made, a criterion they voiced, a teach-back they passed. Claude writing the answer in a report does not close it.
 
 ## Step 0 — Gate: is there a task? (HARD STOP)
 
@@ -82,6 +102,8 @@ Rules for a useful map:
 - Every item names something concrete (a file, a decision, a behavior) — "the auth module uses per-tenant keys, your plan assumes global" not "codebase conventions".
 - 3–7 items per quadrant. If a quadrant is empty, say why (e.g. "you're expert here — thin quadrant").
 - Mark the 2–3 items with the biggest blast radius with ⚠ — these drive the routing.
+
+Then **seed the ledger**: every item in the lower three quadrants becomes a numbered `U#` entry in `.unknowns/ledger.md` (⚠ items first). This skill *opens* entries; it rarely closes any — the routed techniques do the closing, and from now on progress is visible as entries flipping to ✅.
 
 ## Step 4 — Route to the next technique
 

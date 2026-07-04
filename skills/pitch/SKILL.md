@@ -47,3 +47,11 @@ Write to `.unknowns/pitch-<topic>.html` from [templates/pitch-template.html](tem
 - **Honesty over polish**: an expert who catches one omitted deviation trusts nothing else in the doc. The Deviations section is the credibility engine — never sand it down.
 - Keep the private session vocabulary out ("DEV-3", "the Tier-1 thing") — expand every reference into plain language.
 - **Never send the document anywhere** (Slack, PR, email) yourself without explicit confirmation. Produce the artifact, show it to the user, hand it over.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: closes nothing — but the 'what went differently' section is the ledger's late-opened entries translated for outsiders, so pull from it. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

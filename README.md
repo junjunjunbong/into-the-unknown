@@ -101,6 +101,7 @@ Skills share an artifact directory, `.unknowns/` at your repo root (gitignored b
 
 ```
 .unknowns/
+  ledger.md               ← ALL skills     numbered U# entries, open → closed
   map.md                  ← /unknowns      the knowns/unknowns 2×2
   blindspot-<topic>.md    ← /blindspot     what you didn't know to ask
   brainstorm-<topic>.html ← /brainstorm    throwaway prototypes to react to
@@ -112,6 +113,12 @@ implementation-notes.md   ← /impl-notes    deviations log (repo root, per the 
 ```
 
 Skills ship with templates (design-directions page, interactive quiz with grading, implementation-notes format, decisions-first plan, pitch doc) so Claude fills in a proven format instead of improvising one each time.
+
+### The ledger: watching your unknowns actually close
+
+The plugin's progress bar is `.unknowns/ledger.md`: every unknown becomes a numbered entry (`U1`, `U2`, …) with a lifecycle, and **every skill ends with a closing ritual** in chat — `Closed: U2 (criterion voiced) · Opened: U9 · Still open: U3 (default: last-write-wins)`.
+
+The closing rule is strict on purpose: an entry closes only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). Claude writing the answer into a document does not count; that only moves the unknown from your head into a file. The felt sense of "my unknowns are getting filled" is exactly entries flipping to ✅ because you can now say things you couldn't say before.
 
 ## The spirit of the thing
 

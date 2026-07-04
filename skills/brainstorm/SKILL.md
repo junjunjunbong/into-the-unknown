@@ -48,3 +48,11 @@ Every reaction converts an unknown known into a known known. **Write each one do
 - Prototypes are throwaway. They live in `.unknowns/`, never wired into the real app. Resist upgrading a prototype into the implementation — the value was the reaction.
 - Don't polish. A prototype at 80% fidelity in one round beats 99% in three; the missing 20% is often what prompts the most useful reactions.
 - When done, summarize: chosen direction/options + the criteria list, and route onward — `/interview` if ambiguities remain, `/impl-plan` if ready to build.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: an entry closes only when the user's reaction is voiced and captured as an explicit criterion in `decisions.md`. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

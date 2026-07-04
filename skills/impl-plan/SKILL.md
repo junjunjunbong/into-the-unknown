@@ -44,3 +44,11 @@ Refactors, wiring, file-by-file changes, in execution order with rough sizes. Te
 1. Present Tier 1 in chat (not just the file) and ask for vetoes/tweaks decision-by-decision.
 2. Fold in changes; append newly-made decisions to `.unknowns/decisions.md`.
 3. On approval, recommend implementing in a **fresh session**: pass the plan file + decision record + any prototype into the prompt, with `/impl-notes` active from the first edit. Planning context is spent context — the implementing session should start clean with only the artifacts.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: this skill closes nothing — it consolidates. List every still-open entry under 'Open unknowns' with its planned default; a plan hiding open entries is lying about its confidence. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

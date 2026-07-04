@@ -50,3 +50,11 @@ Keep entries terse. The discipline is *when* (immediately) and *where* (the righ
 1. Present the **Deviations** section to the user first — it's the exact list of places reality disagreed with the plan, which is what they must review most carefully. Then Escalations still open, then Follow-ups.
 2. Offer the next steps: `/quiz` to verify their understanding of the change; `/pitch` if they need buy-in.
 3. Meta-signal: if the same *kind* of deviation appears 2+ times (e.g. repeated schema surprises), say so — it means the planning process has a systematic blind spot, and the next `/impl-plan` should inspect that area up front.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: this skill mostly OPENS entries: every Deviation and Surprise is a new `U#` (an unknown discovered late, in the territory). Closing them happens in review, `/quiz`, or `/diagnose`. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

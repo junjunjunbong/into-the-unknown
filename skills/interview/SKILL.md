@@ -51,3 +51,11 @@ Stop when the remaining questions wouldn't change what you'd build first — typ
 Append every resolved question to `.unknowns/decisions.md` using [templates/decision-record-template.md](templates/decision-record-template.md): the question, the chosen answer, the rejected options, and the consequence for implementation.
 
 The bar: **a fresh session given only this file (plus the spec) should lose nothing from this conversation.** End by offering `/impl-plan`, which consumes the decision record directly.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: an entry closes when the user makes the decision, or explicitly delegates it (record `(delegated)` — that's still their call, so it closes). Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

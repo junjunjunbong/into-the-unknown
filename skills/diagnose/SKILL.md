@@ -54,3 +54,11 @@ Scale the retry to the size of the gap:
 - **Wrong problem altogether** (the miss revealed the task should be solved differently) → back to `/unknowns` and re-scope. Going backward here is the process working, not failing.
 
 Don't rebuild from scratch reflexively — say which parts of the existing work survive the diagnosis and reuse them.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: the diagnosis retroactively opens the entry that was missed, and the banked lesson closes it — that pairing is the whole point. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

@@ -51,3 +51,11 @@ Format: multiple choice (4 options) with **plausible distractors** — each wron
 - For each wrong or shaky answer: explain the correct behavior with `file:line` pointers, then later ask a *fresh variant* of that question (different scenario, same concept). Don't re-ask verbatim — recognition isn't understanding.
 - The bar is a **perfect pass before merge**. On a fail, offer a walkthrough of the weak area, then re-quiz the missed concepts.
 - Meta-signal: if the user can't pass after a walkthrough, say so plainly — code the author can't explain is code reviewers can't review. Offer to simplify that area before merging.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: a perfect pass closes the meta-unknown 'do I understand what was built'; each failed question REOPENS its topic until the fresh-variant is answered correctly. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.

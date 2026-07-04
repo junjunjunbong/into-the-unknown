@@ -48,10 +48,27 @@ Write the report to `.unknowns/blindspot-<topic>.md` using [templates/report-tem
 
 Quality bar: every item must be *specific to this codebase or task*. "Auth is security-sensitive" is filler; "all three existing providers implement `refreshToken()` even though the interface marks it optional — yours probably needs to" is a blindspot.
 
-## Step 4 — Help them prompt better
+## Step 4 — Teach-back (this is what closes the unknowns)
+
+The report alone closes nothing — reading is not understanding. Before moving on, ask the user **2–3 check questions**, one at a time, drawn from the report's highest-stakes items (the ⚠-grade potholes and the mental-model concepts). Same rules as `/quiz`: test their model of the territory, not recall of the report's wording; plausible distractors if multiple-choice.
+
+- Correct answer, or the user restating the point in their own words → the corresponding ledger entries flip to ✅.
+- Wrong or shaky answer → explain again *differently* (new example, codebase walk-through), then a fresh variant later. The entry stays ⏳ open until they can say it back.
+
+Keep it light — this is a 2-minute pulse-check, not an exam. Its purpose is to make the difference between "Claude wrote it down" and "I now know it" visible to the user.
+
+## Step 5 — Help them prompt better
 
 End with a **rewritten prompt**: take their original ask and produce the version they *would* have written knowing all of the above — constraints filled in, silent assumptions made explicit, remaining open questions marked `[OPEN]`.
 
 Show it as before/after so the user sees what the pass bought them. Then offer:
 - `/interview` to resolve the `[OPEN]` markers, or
 - proceed straight to `/impl-plan` with the rewritten prompt if few remain.
+
+## Unknowns ledger
+
+All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+
+- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
+- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
+- **Closing rule for this skill**: an entry closes only when the user passes its teach-back question or restates the point in their own words (Step 4). Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.
