@@ -38,6 +38,22 @@ after ────────┴─ /quiz ─────── merge only afte
 
 Start with `/unknowns` if you're not sure which technique you need — it maps your task into the knowns/unknowns 2×2 and routes you.
 
+## In what order? Do I need all five?
+
+No — running all five pre-implementation techniques by default is over-ceremony. Scale to `task size × unfamiliarity × cost of being wrong`. When several apply, the canonical order is **blindspot → brainstorm → interview → impl-plan** (with `/reference` slotting in whenever you have something to point at), because each step makes the next one better: you can't brainstorm well in a domain you don't understand, reactions to prototypes generate better interview questions than a blank page, and the plan exists to consolidate the decisions you just made.
+
+| Situation | Sequence |
+|---|---|
+| Trivial fix, familiar code | none — just implement |
+| Medium feature, familiar area | quick `/brainstorm` → `/impl-plan` |
+| Clear spec, open details | `/interview` → `/impl-plan` |
+| Unfamiliar part of the codebase | `/blindspot` → `/interview` → `/impl-plan` |
+| Taste-heavy (UI, design, tone) | `/brainstorm` → `/interview` → `/impl-plan` |
+| New domain AND taste-heavy | `/blindspot` → `/brainstorm` → `/interview` → `/impl-plan` |
+| "Make it like X" | `/reference` → `/impl-plan` |
+
+If any pre-implementation technique ran, always close with `/impl-plan` — it consolidates their outputs into the artifact the implementing session receives. And the sequence is iterative, not linear: a pileup of deviations in `implementation-notes.md` means go back to `/interview` or re-plan, not improvise forward.
+
 ## How the skills chain together
 
 The skills share an artifact directory, `.unknowns/` at your repo root (gitignored by default), so each one picks up where the previous left off:

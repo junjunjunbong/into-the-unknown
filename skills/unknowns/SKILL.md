@@ -75,4 +75,37 @@ Recommend based on which quadrant holds the ⚠ items:
 - Map is mostly known knowns → `/impl-plan`, then implement with `/impl-notes`.
 - Work already done → `/pitch` for buy-in, `/quiz` before merge.
 
-Recommend **one or two** techniques, name which ⚠ items each one closes, and offer to run the first one now. Do not run every technique; the skill of agentic coding is knowing which gaps are worth closing.
+## Step 5 — Sequence the pre-implementation techniques
+
+When more than one technique applies, the canonical order is:
+
+```
+/blindspot → /brainstorm → /interview → /impl-plan
+                 (/reference slots in wherever the pointing happens)
+```
+
+Each step exists to make the NEXT one better — that's the whole ordering logic:
+
+1. **`/blindspot` before `/brainstorm`**: brainstorming in a domain you don't understand produces generic options. Learn what "good" looks like first, then the options get sharp.
+2. **`/brainstorm` before `/interview`**: interviewing before options exist locks in the first framing. Reactions to prototypes generate better questions than a blank page — and answer many of them for free.
+3. **`/interview` before `/impl-plan`**: the plan must honor decisions, so make the decisions first. A plan full of `[OPEN]` markers is an interview that didn't happen.
+4. **`/reference` is positional, not sequential**: run it the moment the user points at something — its semantics map replaces a whole cluster of interview questions ("behave like that").
+5. **`/impl-plan` is the gate**: if any other pre-implementation technique ran, always finish with the plan — it's where their outputs (blindspot rewrite, criteria, decisions, semantics map) get consolidated into the artifact the implementing session receives.
+
+**Never recommend all five by default.** Ceremony must scale with `task size × unfamiliarity × cost of being wrong`. Each technique is cheap relative to a wrong implementation, but not free relative to a small task. Presets:
+
+| Situation | Sequence |
+|---|---|
+| Trivial fix, familiar code | none — just implement |
+| Medium feature, familiar area | quick `/brainstorm` (scope check) → `/impl-plan` |
+| Clear spec handed to you, open details | `/interview` → `/impl-plan` |
+| Feature in an unfamiliar part of the codebase | `/blindspot` → `/interview` → `/impl-plan` |
+| Taste-heavy work (UI, design, tone) | `/brainstorm` → `/interview` → `/impl-plan` |
+| Entirely new domain AND taste-heavy | full stack: `/blindspot` → `/brainstorm` → `/interview` → `/impl-plan` |
+| "Make it like X" | `/reference` → `/impl-plan` |
+
+Skip rules (state them when you skip): skip `/blindspot` when the user is fluent in both the domain and this codebase area; skip `/brainstorm` when the solution shape is already fixed (bug fix, spec dictated from above); skip `/interview` when no Tier-1 questions survived brainstorming; skip `/impl-plan` only when the change is small enough that the diff itself is reviewable in one sitting.
+
+**The sequence is iterative, not linear.** Unknowns found deep in implementation (via `/impl-notes` deviations) can send you back — a pileup of deviations means return to `/interview` or re-plan rather than improvising forward. Sometimes an interview answer reveals the problem should be solved a different way altogether; going backward is the technique working, not failing.
+
+Recommend **one or two** techniques (plus the closing `/impl-plan` if any ran), name which ⚠ items each closes, and offer to run the first one now. The skill of agentic coding is knowing which gaps are worth closing.
