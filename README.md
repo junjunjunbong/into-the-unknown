@@ -42,9 +42,9 @@ codex plugin add into-the-unknown@into-the-unknown
 Two commands cover 80% of usage:
 
 ```
-/unknowns  add CSV export to the reports page
+/discovery  add CSV export to the reports page
 ```
-→ maps what you know / don't know about the task and tells you which (if any) technique is worth running before you build.
+→ maps what you know / don't know about the task as correctable hypotheses, asks the single highest-leverage question first, and routes you to whichever technique (if any) is worth running before you build. Has special modes for coding, research, and product unknowns.
 
 ```
 /diagnose  the dashboard came back nothing like I imagined
@@ -57,7 +57,7 @@ Match the sentence in your head to a command:
 
 | You're thinking… | Run | Example |
 |---|---|---|
-| "I don't know where to start" | `/unknowns` | `/unknowns migrate our cron jobs to queues` |
+| "I don't know where to start" / "what am I missing?" | `/discovery` | `/discovery migrate our cron jobs to queues` |
 | "I've never touched this part of the codebase / domain" | `/blindspot` | `/blindspot the billing module — never worked in it` |
 | "I'll know what I want when I see it" | `/brainstorm` | `/brainstorm 4 wildly different directions for the settings page` |
 | "There are decisions I haven't made yet" | `/interview` | `/interview me about the notifications spec` |
@@ -72,7 +72,7 @@ Match the sentence in your head to a command:
 
 For a real feature, the flow looks like this:
 
-1. **Scope** — `/unknowns` (or jump straight to a technique if you already know your gap).
+1. **Scope** — `/discovery` (or jump straight to a technique if you already know your gap).
 2. **Close the gaps that matter** — usually one or two of `/blindspot`, `/brainstorm`, `/interview`, `/reference`. Never all of them by default.
 3. **Plan** — `/impl-plan` consolidates everything into a decisions-first plan you review in 5 minutes (Tier 1 only — the mechanical stuff is buried at the bottom on purpose).
 4. **Implement in a fresh session** — pass the plan file in, with `/impl-notes` logging any deviation from it.
@@ -102,7 +102,7 @@ Skills share an artifact directory, `.unknowns/` at your repo root (gitignored b
 ```
 .unknowns/
   ledger.md               ← ALL skills     numbered U# entries, open → closed
-  map.md                  ← /unknowns      the knowns/unknowns 2×2
+  map.md                  ← /discovery      the knowns/unknowns 2×2
   blindspot-<topic>.md    ← /blindspot     what you didn't know to ask
   brainstorm-<topic>.html ← /brainstorm    throwaway prototypes to react to
   decisions.md            ← /interview     append-only decision record + taste criteria
@@ -120,7 +120,7 @@ Skills ship with templates (design-directions page, interactive quiz with gradin
 
 The settling rule is strict on purpose: an unknown counts as settled only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). Claude writing the answer into a document does not count; that only moves the unknown from your head into a file.
 
-Relatedly, `/unknowns` opens with **hypotheses, not a diagnosis**: a small draft map (5–8 items, guesses tagged as guesses, questions about you phrased as questions) that you correct before anything is written or routed. Every "no, actually…" you reply with is the mechanism working.
+Relatedly, `/discovery` opens with **hypotheses, not a diagnosis**: a small draft map (5–8 items, guesses tagged as guesses, questions about you phrased as questions) that you correct before anything is written or routed. Every "no, actually…" you reply with is the mechanism working.
 
 ## The spirit of the thing
 

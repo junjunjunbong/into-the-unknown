@@ -51,7 +51,7 @@ Scale the retry to the size of the gap:
 
 - **Small gap** (one criterion missed, structure sound) → targeted fix in this session with the banked criterion.
 - **Framing gap** (right problem, wrong shape) → back to `/brainstorm` or `/interview` with the diagnosis as input, then re-plan the affected part.
-- **Wrong problem altogether** (the miss revealed the task should be solved differently) → back to `/unknowns` and re-scope. Going backward here is the process working, not failing.
+- **Wrong problem altogether** (the miss revealed the task should be solved differently) → back to `/discovery` and re-scope. Going backward here is the process working, not failing.
 
 Don't rebuild from scratch reflexively — say which parts of the existing work survive the diagnosis and reuse them.
 
