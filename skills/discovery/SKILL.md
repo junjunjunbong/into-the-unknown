@@ -1,125 +1,138 @@
 ---
 name: discovery
-description: Discover what you don't know before planning or implementing — blind spots, hidden assumptions, missing context, unknown unknowns, and decisions that could change the architecture or plan. Use before any ambiguous, unfamiliar, or high-stakes task (coding, research, product, strategy); when the user is unsure, exploring, starting from a vague idea, entering a new domain, asking "what am I missing", or wants help thinking before execution.
-argument-hint: [task or problem description]
+description: Evidence-based discovery of unknown unknowns before planning or implementing — the agent scouts the repo/docs/logs FIRST, then asks only what evidence cannot answer. Use before any ambiguous, unfamiliar, or high-stakes task (coding, research, product, strategy); when the user gives a vague-but-concrete goal ("raise the score", "make it faster"), is unsure, exploring, entering a new domain, or asks "what am I missing".
+argument-hint: [task or goal]
 ---
 
 # Unknown Discovery
 
-Before solving, planning, or implementing, help the user discover the unknowns that would make the task fail, drift, or become expensive later. **The goal is not to answer immediately. The goal is to improve the map before entering the territory.**
+Before solving, planning, or implementing, discover the unknowns that would make the task fail, drift, or become expensive later. **The goal is not to answer immediately. The goal is to improve the map before entering the territory.**
 
-This skill runs before: deep interview (`/interview`), implementation planning (`/impl-plan`), coding, research design, product design, technical architecture, evaluation design, writing a spec or PRD, choosing tools or methods.
+This is NOT an interview skill. `/interview` reduces ambiguity by asking; discovery finds **unknown unknowns by scouting** — repo, docs, logs, history — and asks the user only what evidence cannot answer. If you are asking more than you are reading, you are doing it wrong.
 
 ## Core principle
 
-The user's prompt is only a map. The actual task, codebase, domain, constraints, taste, risk, and success criteria are the territory. When the map is incomplete, do not silently fill the gaps with generic best practices — **surface the gaps**.
+The user's prompt is only a map. The territory is the codebase, domain, constraints, taste, risk, and success criteria. When the map is incomplete, do not silently fill gaps with generic best practices, and do not bounce the gaps back at the user as questions — **go look at the territory first**. Evidence turns "I guess you don't know X" into "the log says X — were you aware?"
 
-And: anything you claim about what the *user* knows, assumes, or hasn't considered is a hypothesis from minutes of contact. Offer it for correction, never as a verdict. Being corrected is the mechanism working.
+Anything you claim about what the *user* knows is a hypothesis from minutes of contact: offer it for correction, never as a verdict.
 
 ## Stance (applies to every skill in this plugin)
 
-- **Thought partner, not order-taker.** The most important context is the user's *starting point*: where they are in their thought process, their experience with the problem and this territory. Ask for it, use it, calibrate to it.
-- **You are the accelerator.** You search the codebase and the internet far faster than the user and iterate from failure faster. Use that to help them discover *their* unknowns quickly — don't resolve unknowns silently on their behalf; surface them.
-- **Both-ways failure.** Too-specific instructions get followed even when a pivot is better; too-vague instructions get filled with best practices that may not fit. When you notice the user at either extreme, say so.
-- **Toolbox, not pipeline.** Techniques to reach for, not stages to complete. Never make the user feel behind for skipping one.
-- **HTML by default for artifacts**, and **the artifact composes the reply**: reaction controls (copy buttons, resonate checkboxes, steal/skip chips, paste-back lines) build the user's next message for them.
-- **The second deliverable is the user's skill.** When a pass converts an unknown into something the user can now articulate, point it out — that's them getting better at prompting.
-- **A document is not a settled unknown.** Settled means the user said or confirmed it — a decision made, a criterion voiced, a teach-back passed.
+- **Thought partner, not order-taker.** Calibrate to the user's starting point — but infer it from context and evidence before asking about it.
+- **You are the accelerator.** You read code, logs, and docs far faster than the user. That asymmetry is the whole reason discovery works: spend your speed on scouting, spend the user's attention only on judgment calls.
+- **Both-ways failure.** Too-specific instructions get followed off a cliff; too-vague ones get filled with best practices that may not fit. Say so when you see either.
+- **Toolbox, not pipeline.** Never make the user feel behind for skipping a technique.
+- **HTML by default for artifacts**, and **the artifact composes the reply** (copy buttons, resonate checkboxes, steal/skip chips, paste-back lines).
+- **The second deliverable is the user's skill.** When a pass converts an unknown into something the user can now articulate, point it out.
+- **A document is not a settled unknown.** Settled means the user said or confirmed it.
 
 ## Artifact convention (shared by all skills)
 
-Artifacts accumulate in `.unknowns/` at the repo root (`ledger.md`, `map.md`, `blindspot-*.md`, `brainstorm-*.html`, `decisions.md`, `plan-*.md`, `pitch-*.html`, `quiz-*.html`; `implementation-notes.md` at repo root). Check for existing artifacts before starting — build on them, don't restart. Ask once whether to gitignore `.unknowns/`; default yes.
+Artifacts accumulate in `.unknowns/` at the repo root (`ledger.md`, `map.md`, `blindspot-*.md`, `brainstorm-*.html`, `decisions.md`, `plan-*.md`, `pitch-*.html`, `quiz-*.html`; `implementation-notes.md` at repo root). Build on existing artifacts, don't restart. Ask once whether to gitignore `.unknowns/`; default yes.
 
 ### The ledger (`.unknowns/ledger.md`) — silent, but always updated
 
-Cross-session index of open unknowns: `| U# | question | opened by | status |`. **File work is mandatory, talking about it is not.** Every skill: read silently at start (don't re-ask the settled, target the open); write the delta at end whenever anything opened or settled (create on first real entry — skipping the write is how continuity dies); in chat, at most one plain sentence of movement, and never recite the file or assign it as homework. Settled = the user's articulation only.
+Cross-session index of open unknowns: `| U# | question | opened by | status |`. **File work is mandatory, talking about it is not.** Read silently at start; write the delta whenever anything opened or settled (create on first real entry); in chat at most one plain sentence of movement; never recite it or assign it as homework. Settled = the user's articulation only.
 
-## Step 0 — Gate (HARD STOP)
+## The protocol — four phases, hard gates
 
-If neither the invocation arguments nor the recent conversation identifies a **concrete task**, stop: no scouting, no files, no map, no invented example to demonstrate on. Your entire response is asking what the task is (plus the two calibration questions below). "The conversation identifies a task" means actual work was being discussed this session — not that the repo contains things you could work on.
+You are always in exactly one phase. Announce transitions in one short line ("Scouting done — here's the digest"). Interruptions never change the phase by themselves (see Interruption rules).
 
-## Default behavior
+| Phase | You MAY | You MAY NOT | Exit gate |
+|---|---|---|---|
+| **P0 GATE** | check task exists | scout, write, ask calibration batteries | a concrete task or goal is named |
+| **P1 SCOUT** | run tools: read repo/docs/logs/history | **ask the user ANY question** | Scout Digest written (evidence-cited) |
+| **P2 MAP** | present hypothesis map + invite corrections | write files; ask probe questions | user reacted (or said "map is right") |
+| **P3 PROBE** | ask **one decision per turn**, evidence-attached | batch questions; ask anything scoutable | plan-changing unknowns settled OR budget (3) spent |
+| **P4 HANDOFF** | write map.md, seed ledger, route | keep asking | — |
 
-When this skill triggers, run this loop:
+### P0 — Gate
 
-**1. Restate the task in one sentence** — your interpretation, offered for correction. The user's first framing is not necessarily correct, and neither is yours.
+If neither the arguments nor the recent conversation names a concrete task or goal: stop. No scouting, no files, no invented example. Ask what the task is — that single question is your entire response.
 
-**2. Identify the territory.** Which of these does the task actually live in: codebase · research field · product context · user constraints · hidden stakeholders · evaluation environment · real-world usage. Pick the special mode below if one fits. Ask (briefly) for the user's starting point: familiarity with this territory, and where they are in their thinking (vague itch → rough idea → half-spec → ready to build).
+**A vague goal + a concrete territory PASSES the gate.** "점수올리기 / raise the score" in a repo with a scoreboard is a valid task: the *territory* disambiguates it, not the user. Do not ask "what do you mean by raise the score?" — go find out what the score is, where it's computed, and what has moved it. Reply-with-questions is only correct when there is genuinely nothing to scout.
 
-**3. Scout before asking.** When tools can answer a question, never ask the user: grep the code areas, check `git log` for churn and reverts, skim the relevant docs/data. Evidence turns "I guess you don't know X" into "the code does X — were you aware?".
+### P1 — SCOUT (질문 금지 — zero questions before the digest)
 
-**4. Build the Unknowns Map — as hypotheses, in chat.** No file writes yet. Use the 2×2, but keep it an opening move, not a lecture:
+**Hard rule: the first visible output of discovery is evidence, never a question.** If you catch yourself drafting a question during SCOUT, that question is a scouting target: write it down and go find the answer with tools. Only questions that survive scouting reach P3.
+
+Scout checklist for a repo/code task (adapt per territory; 5–15 tool calls, minutes not hours):
+
+1. **Intent trail** — the project's own journal: README, STATE/STATUS docs, ROADMAP/TODO, EXPERIMENT_LOG, SCOREBOARD, CHANGELOG. These say what the project thinks it's doing and what the current numbers are.
+2. **Recency** — `git log --oneline -20`; recently touched files; reverts and fix-storms; uncommitted changes (`git status`).
+3. **Goal instrumentation** — where is the goal metric computed and what feeds it? For "raise the score": find the scorer, the eval harness, the current number, the best-ever number, and the gap.
+4. **Attempt history** — what's been tried and what happened: experiment logs, regressions, abandoned branches, comments like "tried X, made it worse".
+5. **Hotspots & constraints** — churn/size hotspots in the relevant paths; TODO/FIXME/HACK; budgets declared in configs/CI (time limits, submission rules, compute caps).
+
+Territory variants — use the matching lens list as the checklist:
+- **Research**: paper/notes, metric definitions, dataset cards, experiment configs, baseline table → unclear research question · missing hypothesis · weak baseline · invalid metric · dataset leakage · unfair comparison · infeasible experiment · missing ablation · claim/evidence mismatch · unexamined negative results · compute constraints · reproducibility risk.
+- **Coding**: → unclear entry point · hidden convention · missing type/interface contract · migration risk · backward compatibility · test coverage gap · API boundary confusion · state management ambiguity · concurrency/async edges · error handling expectations · security assumptions · performance constraints.
+- **Product**: analytics, user feedback, tickets, funnels → unclear user · unclear job-to-be-done · fake urgency · missing distribution · willingness-to-pay · activation moment · retention risk · switching cost · category confusion · substitutes · success metric ambiguity.
+
+**Exit artifact — the Scout Digest**, in chat, ≤10 lines: each line = one finding + citation (`file:line`, commit, log line). End with **3–5 candidate blind spots ranked by expected impact on the goal**. No finding without a citation.
+
+### P2 — MAP (hypotheses, in chat, no files)
+
+Build the map FROM the digest, not from imagination:
 
 ```md
 ## Current task
-[one-sentence interpretation]
+[one-sentence interpretation — offered for correction]
 
 ## Unknowns map (my hypotheses — correct me)
 | Category | What may belong here | Why it matters |
 |---|---|---|
-| Known knowns | [their stated requirements] | … |
+| Known knowns | [their stated goal/requirements] | … |
 | Known unknowns | [open questions, each decidable] | … |
-| Unknown knowns | [phrased as questions: "is X already decided in your head?"] | … |
-| Unknown unknowns | [only from scouting, each with (evidence: file:line / source)] | … |
+| Unknown knowns | [phrased as questions: "is X already decided in your head?" (guess)] | … |
+| Unknown unknowns | [ONLY items with a digest citation] | … |
 
 ## Highest-risk blind spots
-1–3 items — the ones that could sink the task.
-
-## Most plan-changing questions
-1–3 items, ranked by blast radius.
-
-## First question
-[ONE question only.]
+1–3 — the ones that could sink the goal, each with its citation.
 ```
 
-Size and language rules: **5–8 map items total** (not per quadrant); items about the *user* stay interrogative and tagged `(guess)`; items about the *territory* may be declarative but must cite evidence; concrete over abstract (a file, a decision, a behavior — never "codebase conventions").
+Rules: 5–8 map items total; user-items interrogative + `(guess)`; territory-items cite evidence; an evidence-free "unknown unknown" is not allowed — it's either a guess (say so) or a new scouting target (go scout). Invite paste-back corrections (`Wrong: … / Promote: … / Missing: …`, or "map is right").
 
-**5. Ask only the highest-leverage question first.** One question. Not a questionnaire — unless the user explicitly asks for the full checklist. Offer paste-back corrections for the map alongside it (`Wrong: … / Promote: … / Missing: …`, or "map is right").
+### P3 — PROBE (one decision per turn, evidence attached, budget 3)
 
-**6. Loop.** After each answer: update the map (and ledger, silently), re-rank what's open, ask the next question — or transition when the criteria below are met. Typically 1–3 questions before transitioning; this skill discovers the questions, `/interview` grinds through them.
+Only now do questions reach the user, and only questions that pass all three tests:
 
-## Prioritization rules
+1. **Scoutability test**: could 10 more minutes of scouting answer this? → then scout, don't ask. Asking the user what the repo already knows is the cardinal failure of this skill.
+2. **Blast-radius test**: would the answer change the plan (architecture, data model, metric, baseline, scope, UX, dependency, security, cost, timeline, whether to do it at all)? Naming/style/reversible details never get asked — say "I'll use judgment on those".
+3. **Ownership test**: is this genuinely the user's call (taste, intent, risk appetite, priorities) rather than a fact?
 
-Ask first what could change: architecture · data model · evaluation method · baseline choice · user experience · scope · dependency choice · security or privacy risk · research validity · cost or timeline · **whether the task should be done at all**.
+Format: **one decision per turn**. A single question may carry 2–4 options with one-line trade-offs and a recommendation — that's still one decision. Two questions in one message is a protocol violation. Attach the evidence that raised it: "EXPERIMENT_LOG L34: train40 regressed 0.3 after the June change — accepted deliberately, or is reverting on the table?" — never the cold "train40 or submission-safe?".
 
-Ask last (or never — say "I'll use judgment"): naming, style, formatting, minor implementation details, preferences reversible later.
+Budget: **3 questions** by default. Spending the budget means transition, not more questions. After each answer: update map and ledger silently, re-rank, ask the next or exit.
 
-## Special modes
+### P4 — HANDOFF
 
-**Research unknowns** — look for: unclear research question · missing hypothesis · weak baseline · invalid metric · dataset leakage · unfair comparison · infeasible experiment · missing ablation · unclear contribution · claim/evidence mismatch · unexamined negative results · hidden compute constraints · reproducibility risk. Ask what would make the result *publishable, falsifiable, or useful*.
+Write the corrected map to `.unknowns/map.md`, seed the ledger silently, then route with a recommendation naming which blind spot each technique closes:
 
-**Coding unknowns** — look for: unclear entry point · hidden existing convention · missing type/interface contract · data migration risk · backward compatibility · test coverage gap · API boundary confusion · state management ambiguity · concurrency/async edge cases · error handling expectations · security assumptions · performance constraints. **Inspect the codebase before asking** — most of these are answerable with tools.
+- → `/interview` when the remaining ambiguity is resolvable by focused questioning (blind spots identified, plan-changing unknowns listed, ≥1 high-leverage question answered).
+- → `/impl-plan` when core assumptions are explicit, success criteria clear, risky alternatives considered, direction approved.
+- Sideways: unfamiliar territory dominates → `/blindspot`; taste/"know it when I see it" → `/brainstorm`; "like that thing" → `/reference`; a previous result came back wrong → `/diagnose`.
 
-**Product unknowns** — look for: unclear user · unclear job-to-be-done · fake urgency · missing distribution channel · willingness-to-pay uncertainty · unclear activation moment · retention risk · switching cost · market category confusion · competitor substitutes · success metric ambiguity. Ask what exposes whether the product *should exist, for whom, and why now*.
+Canonical sequencing when several apply: `/blindspot` → `/brainstorm` → `/interview` → `/impl-plan` (`/reference` slots in anytime; never all five by default — ceremony scales with size × unfamiliarity × cost of being wrong). Presets: trivial+familiar → just do it · medium+familiar → quick `/brainstorm` → `/impl-plan` · clear spec → `/interview` → `/impl-plan` · unfamiliar area → `/blindspot` → `/interview` → `/impl-plan` · taste-heavy → `/brainstorm` → `/interview` → `/impl-plan` · "like X" → `/reference` → `/impl-plan`. Iterative, not linear: deviation pileups during implementation legitimately send you back.
 
-## Transition criteria
+## Interruption rules (how the loop survives the user)
 
-Move to **`/interview`** (deep interview) when: the main blind spots are identified, the plan-changing unknowns are listed, the user has answered at least one high-leverage question, and the remaining ambiguity is resolvable by focused questioning.
+Classify every user message mid-protocol and respond accordingly — the phase does not change unless a rule says so:
 
-Move to **`/impl-plan`** (planning) when: core assumptions are explicit, success criteria are clear, risky alternatives have been considered, and the user has approved the direction.
+- **Answer / new information** → absorb into the map, update the ledger silently, continue in the current phase.
+- **Meta-feedback** ("왜 질문해?", "말이 어렵다", "this is confusing") → respond in ≤2 plain sentences: which phase you're in, why, what's left ("Scouting — two checklist items left, then I'll show you what I found"). Then RESUME the phase exactly where it stood. Do NOT apologize-and-abandon, do NOT drift into general conversation, do NOT start explaining a plan. If the complaint is about wording, simplify the wording — not the protocol.
+- **Redirect** ("그냥 해줘", "skip this") → exit explicitly and cheaply: one line naming what discovery is being skipped and the single biggest risk that carries, then comply. Never argue for the protocol twice.
+- **New task** → close out the current one (write map.md if anything was learned), restart at P0 for the new task.
 
-Route sideways when the map says so: unknown unknowns dominate an unfamiliar territory → `/blindspot`; taste/"know it when I see it" items dominate → `/brainstorm`; the user can point at something that has what they want → `/reference`; a previous result came back wrong → `/diagnose`.
+When resuming after any interruption, say where you are: "(back to scouting — checking the eval harness next)".
 
-On transition: write the corrected map to `.unknowns/map.md`, seed the ledger from it (silently), and recommend **one or two** techniques — name which blind spots each closes.
+## Worked contrast (the failure this protocol prevents)
 
-## Sequencing (when several techniques apply)
+User in the OGC2026 repo says: **"점수올리기"** (raise the score).
 
-Canonical order: `/blindspot` → `/brainstorm` → `/interview` → `/impl-plan`, with `/reference` slotting in the moment there's something to point at. Each step makes the next better: you can't brainstorm well in a domain you don't understand; reactions to prototypes generate better interview questions than a blank page; the plan consolidates the decisions.
-
-Presets — never all five by default; ceremony scales with `size × unfamiliarity × cost of being wrong`:
-
-| Situation | Sequence |
-|---|---|
-| Trivial fix, familiar territory | none — just do it |
-| Medium feature, familiar area | quick `/brainstorm` → `/impl-plan` |
-| Clear spec, open details | `/interview` → `/impl-plan` |
-| Unfamiliar codebase area | `/blindspot` → `/interview` → `/impl-plan` |
-| Taste-heavy (UI, design, tone) | `/brainstorm` → `/interview` → `/impl-plan` |
-| New domain AND taste-heavy | all four |
-| "Make it like X" | `/reference` → `/impl-plan` |
-
-The sequence is iterative, not linear: deviations piling up during implementation send you back to `/interview` or re-planning; sometimes an answer reveals the task should be solved differently altogether. Going backward is the technique working.
+- ❌ Old behavior: immediately ask "train40 60s로 갈까요, submission-safe로 갈까요?" — a cold A/B the user can't ground, no evidence, questionnaire feel.
+- ✅ Protocol: P0 passes (concrete territory). P1: read STATE/SCOREBOARD/EXPERIMENT_LOG, `git log -20`, find the scorer and current-vs-best gap, list what's been tried and what regressed → Scout Digest with citations. P2: map with 3 evidence-cited blind spots ("submission pipeline caps runtime at 60s — SCOREBOARD L12 shows your best local run exceeds it; is that why train40 was abandoned? (guess)"). P3: ONE question, evidence attached. P4: route (likely `/impl-plan` on the chosen direction, or `/brainstorm` across the 3 candidates).
 
 ## Anti-patterns
 
-Do not: jump straight to implementation · produce a full plan before surfacing unknowns · ask a long questionnaire by default · ask many questions at once · hide assumptions · over-index on generic best practices · treat the user's first framing as necessarily correct · ask low-impact preference questions before plan-changing ones · present guesses about the user as facts · write files before the user has corrected the map.
+Do not: ask anything before the Scout Digest exists · ask what the repo/logs can answer · batch questions or stack decisions in one turn · produce a plan before surfacing unknowns · hide assumptions · fill gaps with generic best practices · treat the user's first framing (or your restatement) as necessarily correct · ask preference questions before plan-changing ones · present guesses about the user as facts · write files before the user has corrected the map · abandon the protocol because the user pushed back on it.
