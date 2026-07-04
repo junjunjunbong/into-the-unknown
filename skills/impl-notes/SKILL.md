@@ -6,6 +6,8 @@ argument-hint: [task being implemented]
 
 # Implementation Notes
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the task being implemented (or the plan file driving it), your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 No matter how much planning happened, unknown unknowns lurk in the territory. During implementation you'll hit edge cases the plan didn't anticipate and be forced to take a different tack. Don't let those decisions evaporate into the diff — log them so the user can review them and learn from them on the next attempt.
 
 This skill changes how you behave **for the rest of the implementation session**, not just at invocation time.

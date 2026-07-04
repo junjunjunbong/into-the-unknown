@@ -6,6 +6,8 @@ argument-hint: [change/feature to pitch] [audience]
 
 # Pitch & Explainer
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the change or feature to pitch, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 Shipping needs buy-in. A good pitch artifact accelerates two audiences at once:
 
 - **Reviewers who start with the same unknowns you did** — they need the context you had to discover, pre-digested.

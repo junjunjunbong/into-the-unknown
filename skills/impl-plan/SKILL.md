@@ -6,6 +6,8 @@ argument-hint: [feature or task to plan]
 
 # Implementation Plan (Decisions First)
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the feature or task to plan, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 A plan's job is to surface the things the user might actually need to alter — not to prove you can enumerate steps. Order the plan by **likelihood the user will want to change it**, not by execution order. The user should be able to review Tier 1, skim Tier 2, and ignore Tier 3 entirely.
 
 ## Step 0 — Gather inputs

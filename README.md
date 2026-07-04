@@ -1,4 +1,4 @@
-# finding-unknowns
+# into-the-unknown
 
 **A Claude Code plugin that helps you discover what you don't know — before it gets expensive to fix.**
 
@@ -11,14 +11,14 @@ Ten skills packaging the techniques from [*A Field Guide to Fable: Finding Your 
 ## Install
 
 ```
-/plugin marketplace add junwon/finding-unknowns
-/plugin install finding-unknowns@finding-unknowns
+/plugin marketplace add junjunjunbong/into-the-unknown
+/plugin install into-the-unknown@into-the-unknown
 ```
 
 Local development / trying it out:
 
 ```
-claude --plugin-dir /path/to/finding-unknowns
+claude --plugin-dir /path/to/into-the-unknown
 ```
 
 ## Quick start

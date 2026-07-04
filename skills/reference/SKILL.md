@@ -6,6 +6,8 @@ argument-hint: [path/URL to reference] [what to extract from it]
 
 # Work From a Reference
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the reference to study and what to extract from it, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 Sometimes the user can't describe what they want in detail — they lack the vocabulary, or describing it would take longer than pointing. The best reference is **source code**: it carries the structure, edge-case handling, and semantics that a screenshot or description loses. A reference in a different language is fine; semantics translate.
 
 ## Step 1 — Pin down the reference and the ask

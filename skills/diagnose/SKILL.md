@@ -6,6 +6,8 @@ argument-hint: [what came back wrong]
 
 # Diagnose a Misfire
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify what came back wrong, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 > "When a long-horizon task comes back wrong, it's likely you need to spend more time defining your unknowns or creating an implementation plan that allows for Claude to improvise through them."
 
 A wrong result is not (usually) a model failure — it's **data about the gap between the map and the territory**. The instinct is to patch the prompt and rerun; resist it until you know which unknown caused the miss, or the retry inherits the same gap. Each diagnosed misfire also converts an unknown into intuition — this is how the user gets better at agentic coding, which is the real long game.

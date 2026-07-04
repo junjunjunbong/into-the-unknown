@@ -6,6 +6,8 @@ argument-hint: [branch/range/scope of the change]
 
 # Change Report & Quiz
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the change to report and quiz on (session, branch, or range), your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 After a long session, Claude may have accomplished more than the user realizes. Reading diffs gives only a light understanding, because much of the behavior depends on existing code paths the diff doesn't show. The quiz closes that gap: **the user merges only after a perfect pass.**
 
 ## Step 1 — Establish what changed

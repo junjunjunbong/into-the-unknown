@@ -6,6 +6,8 @@ argument-hint: [area or topic you're blind on]
 
 # Blindspot Pass
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the area or topic the user is blind on, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 When the user starts work in a new part of the codebase or an unfamiliar domain, they have unknown unknowns: they don't know what questions to ask, what "good" looks like, what historical work exists, or what potholes to avoid. Your job is to find those blindspots and **teach them** — so they can prompt better. The deliverable is understanding, not code. Do NOT start implementing during a blindspot pass.
 
 ## Step 1 — Calibrate to the user

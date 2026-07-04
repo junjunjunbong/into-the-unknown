@@ -1,6 +1,6 @@
 ---
 name: unknowns
-description: Map out the user's knowns and unknowns for a task and recommend which finding-unknowns technique to use next. Use when the user is starting a project or task and isn't sure how to scope it, says "I don't know where to start", or asks to "find my unknowns".
+description: Map out the user's knowns and unknowns for a task and recommend which into-the-unknown technique to use next. Use when the user is starting a project or task and isn't sure how to scope it, says "I don't know where to start", or asks to "find my unknowns".
 argument-hint: [task or problem description]
 ---
 
@@ -19,7 +19,7 @@ Your job in this skill: build a concrete unknowns map for THIS task, then route 
 - **HTML by default for artifacts.** For anything meant to be *reacted to* — prototypes, plans, reports, quizzes — a self-contained HTML page beats markdown at representing it.
 - **The second deliverable is the user's skill.** Reducing and planning for unknowns IS the skill of agentic coding, and it improves by working with Claude. When a pass converts an unknown into something the user can now articulate, point it out — that's them getting better at prompting, which outlasts this task.
 
-## Artifact convention (shared by all finding-unknowns skills)
+## Artifact convention (shared by all into-the-unknown skills)
 
 Artifacts from this plugin's skills accumulate in `.unknowns/` at the repo root, so later skills can pick up where earlier ones left off:
 
@@ -37,9 +37,19 @@ implementation-notes.md  ← /impl-notes (repo root, per the original article)
 
 Before starting, check whether `.unknowns/` already has artifacts for this task — if so, read them first and build on them instead of restarting. Ask once whether to gitignore `.unknowns/`; default to adding it to `.gitignore`.
 
+## Step 0 — Gate: is there a task? (HARD STOP)
+
+If neither the invocation arguments nor the recent conversation identifies a **concrete task**, STOP:
+
+- Do NOT scout the codebase, do NOT write any file, do NOT produce a map or any other artifact.
+- Do NOT invent, guess, or pick a plausible task from the repo to demonstrate on. A 2×2 built without a real task is generic filler — worse than nothing.
+- Your ENTIRE response is the three calibration questions from Step 1. Then wait.
+
+"The conversation identifies a task" means the user has actually been discussing specific work in this session — not merely that the repo contains things you could work on.
+
 ## Step 1 — Understand the starting point
 
-If the task isn't clear from `$ARGUMENTS` or the conversation, use AskUserQuestion (or plain questions) to establish, briefly:
+If the task isn't fully clear, ask (via AskUserQuestion if this harness has it; otherwise plain text), briefly:
 
 1. The task, in their words.
 2. Their familiarity: **codebase area** (never touched / read it / written in it) and **domain** (new to me / conversational / expert).

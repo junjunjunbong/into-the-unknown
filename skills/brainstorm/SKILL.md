@@ -6,6 +6,8 @@ argument-hint: [problem or thing to prototype]
 
 # Brainstorms & Prototypes
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the problem to brainstorm or the thing to prototype, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 Use this when the user is working in an area with lots of **unknown knowns** — criteria they can only define when they see them. Finding these out during implementation is expensive: small changes in a feature or spec cause drastically different implementations, and reverting is hard. Finding them out on a throwaway prototype is cheap.
 
 This is also the right way to start almost any coding session: an exploration/brainstorm phase that sets the project's scope with intent — neither too narrow nor too wide. Claude often finds high-value approaches the user would have missed, and the user catches when Claude misses the forest for the trees.

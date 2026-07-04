@@ -1,5 +1,5 @@
 {
-  "name": "finding-unknowns",
+  "name": "into-the-unknown",
   "owner": {
     "name": "junwon"
   },
@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "finding-unknowns",
+      "name": "into-the-unknown",
       "source": "./",
       "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes."
     }

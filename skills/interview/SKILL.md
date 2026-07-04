@@ -6,6 +6,8 @@ argument-hint: [spec/topic to interview about]
 
 # Interview
 
+> **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the spec, task, or topic to interview about, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
+
 After brainstorming, unknowns usually remain. Instead of guessing at them during implementation, interview the user now — ambiguity resolved in conversation is far cheaper than ambiguity discovered in a diff.
 
 ## Step 0 — Study before asking

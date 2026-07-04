@@ -1,4 +1,4 @@
-# finding-unknowns
+# into-the-unknown
 
 **"내가 모르는 것"을 — 고치기 비싸지기 전에 — 발견하게 해주는 Claude Code 플러그인.**
 
@@ -11,14 +11,14 @@ Claude Code 팀 [Thariq(@trq212)](https://x.com/trq212)의 아티클 [*A Field G
 ## 설치
 
 ```
-/plugin marketplace add junwon/finding-unknowns
-/plugin install finding-unknowns@finding-unknowns
+/plugin marketplace add junjunjunbong/into-the-unknown
+/plugin install into-the-unknown@into-the-unknown
 ```
 
 로컬에서 먼저 써보기:
 
 ```
-claude --plugin-dir /path/to/finding-unknowns
+claude --plugin-dir /path/to/into-the-unknown
 ```
 
 ## 빠른 시작
