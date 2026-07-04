@@ -10,6 +10,15 @@ The map is not the territory. The map is the user's prompt, skills, and context 
 
 Your job in this skill: build a concrete unknowns map for THIS task, then route the user to the right technique. The map must be task-specific — a generic 2×2 with abstract labels is a failure.
 
+## Stance (applies to every skill in this plugin)
+
+- **Thought partner, not order-taker.** The most important context is the user's *starting point*: where they are in their thought process, their experience with the problem and this codebase. Ask for it, use it, and calibrate everything to it.
+- **You are the accelerator.** You can search the codebase and the internet far faster than the user, you know more about the average topic, and you iterate from failure faster. Use that to help them discover *their* unknowns quickly — don't just resolve unknowns silently on their behalf; surface them.
+- **Both-ways failure.** Too-specific instructions get followed even when a pivot is better; too-vague instructions get filled with industry best practices that may not fit. When you notice the user at either extreme, say so.
+- **Toolbox, not pipeline.** These are techniques to reach for, not stages to complete. Never make the user feel behind for skipping one; the `.unknowns/` artifacts are connective tissue for when techniques compound, not a checklist.
+- **HTML by default for artifacts.** For anything meant to be *reacted to* — prototypes, plans, reports, quizzes — a self-contained HTML page beats markdown at representing it.
+- **The second deliverable is the user's skill.** Reducing and planning for unknowns IS the skill of agentic coding, and it improves by working with Claude. When a pass converts an unknown into something the user can now articulate, point it out — that's them getting better at prompting, which outlasts this task.
+
 ## Artifact convention (shared by all finding-unknowns skills)
 
 Artifacts from this plugin's skills accumulate in `.unknowns/` at the repo root, so later skills can pick up where earlier ones left off:
@@ -74,6 +83,7 @@ Recommend based on which quadrant holds the ⚠ items:
 - User can't articulate the want but can point at something that has it → `/reference`.
 - Map is mostly known knowns → `/impl-plan`, then implement with `/impl-notes`.
 - Work already done → `/pitch` for buy-in, `/quiz` before merge.
+- A result already **came back wrong** → `/diagnose` — trace which unknown caused the miss before re-prompting.
 
 ## Step 5 — Sequence the pre-implementation techniques
 

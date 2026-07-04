@@ -33,7 +33,8 @@ before ───────┼─ /brainstorm ─ unknown knowns: react to opti
 during ────────  /impl-notes ─ log deviations, keep going
 
               ┌─ /pitch ────── package everything for buy-in
-after ────────┴─ /quiz ─────── merge only after you pass
+after ────────┼─ /quiz ─────── merge only after you pass
+              └─ /diagnose ─── came back wrong? find the unknown that caused it
 ```
 
 Start with `/unknowns` if you're not sure which technique you need — it maps your task into the knowns/unknowns 2×2 and routes you.
@@ -87,8 +88,17 @@ Several skills ship with templates (design-directions HTML skeleton, interactive
 | `/impl-notes` | during | Keeps `implementation-notes.md`: on unplanned edge cases, pick the conservative option, log it under Deviations, keep going. |
 | `/pitch` | post | Package the prototype, spec, and implementation notes into one explainer doc for buy-in and approvals. |
 | `/quiz` | post | A report on the change with context and intuition, plus a quiz at the bottom. Merge only after a perfect pass. |
+| `/diagnose` | post | When a long-horizon task comes back wrong: trace the earliest divergence, classify which kind of unknown caused it, bank the lesson, route the retry. |
 
-## Why
+## The spirit of the thing
+
+A few commitments from the original article that this plugin tries to preserve, beyond the mechanics:
+
+- **It's a field guide, not a pipeline.** These are techniques to reach for when a specific kind of gap appears — not stages to complete. Skipping most of them on most tasks is correct usage.
+- **Claude is a thought partner.** The highest-leverage input is your *starting point* — where you are in your thought process, your experience with the problem and codebase. Every skill here starts by calibrating to it.
+- **Iterative, not one-shot.** Unknowns show up before, during, and after implementation — and deep in implementation they can legitimately send you back to re-frame the problem. Going backward is the process working.
+- **You're supposed to get better.** Reducing and planning for unknowns *is* the skill of agentic coding, and it's trainable. The best agentic coders know what they want in detail but still assume unknowns. Each brainstorm reaction you verbalize and each misfire you diagnose is that skill compounding — the plugin treats your improvement as a deliverable alongside the code.
+- **A wrong result is a signal, not a verdict.** When a long-horizon task comes back wrong, you likely needed to spend more time defining your unknowns, or a plan that let Claude improvise through them. That's what `/diagnose` operationalizes.
 
 Instructing Claude is a delicate balance: too specific, and it follows your instructions even when a pivot is better; too vague, and it fills the gaps with industry best practices that may not fit your task. Every explainer, brainstorm, interview, prototype, and reference is a cheap way to find out what you didn't know — before it gets expensive to fix.
 

@@ -1,6 +1,6 @@
 {
   "name": "finding-unknowns",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes. Based on Thariq's \"A Field Guide to Fable: Finding Your Unknowns\".",
   "author": {
     "name": "junwon"
