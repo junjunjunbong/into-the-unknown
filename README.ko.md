@@ -10,15 +10,31 @@ Claude Code 팀 [Thariq(@trq212)](https://x.com/trq212)의 아티클 [*A Field G
 
 ## 설치
 
+### Claude Code
+
 ```
 /plugin marketplace add junjunjunbong/into-the-unknown
 /plugin install into-the-unknown@into-the-unknown
 ```
 
-로컬에서 먼저 써보기:
+Claude Code에서 로컬 checkout으로 먼저 써보기:
 
 ```
 claude --plugin-dir /path/to/into-the-unknown
+```
+
+### Codex
+
+```
+codex plugin marketplace add junjunjunbong/into-the-unknown
+codex plugin add into-the-unknown@into-the-unknown
+```
+
+Codex에서 로컬 checkout으로 먼저 써보기:
+
+```
+codex plugin marketplace add /path/to/into-the-unknown
+codex plugin add into-the-unknown@into-the-unknown
 ```
 
 ## 빠른 시작

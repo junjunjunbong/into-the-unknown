@@ -10,15 +10,31 @@ Ten skills packaging the techniques from [*A Field Guide to Fable: Finding Your 
 
 ## Install
 
+### Claude Code
+
 ```
 /plugin marketplace add junjunjunbong/into-the-unknown
 /plugin install into-the-unknown@into-the-unknown
 ```
 
-Local development / trying it out:
+Try a local checkout in Claude Code:
 
 ```
 claude --plugin-dir /path/to/into-the-unknown
+```
+
+### Codex
+
+```
+codex plugin marketplace add junjunjunbong/into-the-unknown
+codex plugin add into-the-unknown@into-the-unknown
+```
+
+Try a local checkout in Codex:
+
+```
+codex plugin marketplace add /path/to/into-the-unknown
+codex plugin add into-the-unknown@into-the-unknown
 ```
 
 ## Quick start

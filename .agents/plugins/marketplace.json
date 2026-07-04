@@ -1,0 +1,17 @@
+{
+  "name": "into-the-unknown",
+  "plugins": [
+    {
+      "name": "into-the-unknown",
+      "source": {
+        "source": "local",
+        "path": "./plugins/into-the-unknown"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
