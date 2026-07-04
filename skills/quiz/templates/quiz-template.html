@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{Change}: report & quiz</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#6b6b6b; --line:#e5e2dc; --bg:#faf9f6; --accent:#c15f3c; --ok:#2e7d4f; --bad:#b3362a; }
+  * { box-sizing:border-box; margin:0; }
+  body { font:16px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:var(--bg); padding:2.5rem 1.25rem 6rem; }
+  .wrap { max-width:820px; margin:0 auto; }
+  h1 { font-size:1.6rem; letter-spacing:-.01em; }
+  .sub { color:var(--muted); margin:.35rem 0 1.5rem; }
+  h2 { font-size:1.15rem; margin:2.2rem 0 .7rem; padding-top:1.2rem; border-top:1px solid var(--line); }
+  p { margin:.5rem 0; }
+  code { font:.88em ui-monospace,monospace; background:#f0ede7; padding:.1em .35em; border-radius:4px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:1rem 1.15rem; margin:.7rem 0; }
+  .before-after { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+  .before-after .card h3 { font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:.4rem; }
+  @media (max-width:640px){ .before-after { grid-template-columns:1fr; } }
+
+  /* Quiz */
+  .q { background:#fff; border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.25rem; margin:.9rem 0; }
+  .q h3 { font-size:1rem; margin-bottom:.6rem; }
+  .q label { display:flex; gap:.55rem; align-items:flex-start; padding:.45rem .6rem; border-radius:8px; cursor:pointer; }
+  .q label:hover { background:#f6f4ef; }
+  .q input[type=radio] { margin-top:.3rem; }
+  .q textarea { width:100%; min-height:4.5rem; font:inherit; padding:.6rem; border:1px solid var(--line); border-radius:8px; }
+  .q .explain { display:none; margin-top:.7rem; padding:.7rem .9rem; border-radius:8px; font-size:.93rem; }
+  .q.correct .explain { display:block; background:#eaf4ee; border:1px solid #cde5d6; }
+  .q.wrong   .explain { display:block; background:#faecea; border:1px solid #eccfcb; }
+  .q.correct h3::after { content:" ✓"; color:var(--ok); }
+  .q.wrong   h3::after { content:" ✗"; color:var(--bad); }
+
+  .grade { margin-top:1.5rem; text-align:center; }
+  .grade button { font:inherit; font-weight:600; color:#fff; background:var(--ink); border:0; border-radius:10px; padding:.75rem 1.8rem; cursor:pointer; }
+  .grade button:hover { background:#000; }
+  #score { margin-top:1rem; font-size:1.15rem; font-weight:600; }
+  #score.pass { color:var(--ok); } #score.fail { color:var(--bad); }
+  #verdict { color:var(--muted); font-size:.95rem; margin-top:.3rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>{Change title}</h1>
+  <p class="sub">Scope: <code>{git range or session}</code> · {date} · Pass the quiz at the bottom before merging.</p>
+
+  <!-- ============ REPORT (study material, not a summary) ============ -->
+
+  <h2>1 · Context</h2>
+  <div class="before-after">
+    <div class="card"><h3>Before</h3><p>{how the affected area worked}</p></div>
+    <div class="card"><h3>After</h3><p>{what problem is solved, what changed for the user}</p></div>
+  </div>
+
+  <h2>2 · Intuition</h2>
+  <p>{mental model of the new behavior: what triggers what, how data flows now}</p>
+  <!-- inline SVG flow diagram here if flow changed -->
+
+  <h2>3 · What was done</h2>
+  <div class="card"><b>{intent group, e.g. "Token refresh"}</b><p>{what & why}, <code>{file:line}</code></p></div>
+  <!-- repeat per intent group, NOT per file -->
+
+  <h2>4 · Interactions with existing code</h2>
+  <p>{where the change relies on or alters existing paths — the couplings the diff can't show}</p>
+
+  <h2>5 · What to watch</h2>
+  <ul>
+    <li>Handled: {edge case}</li>
+    <li><b>Deliberately not handled:</b> {edge case} — {why}</li>
+    <li>Deviation from plan: {DEV-n summary}</li>
+  </ul>
+
+  <!-- ============ QUIZ ============ -->
+  <h2>Quiz — perfect pass required to merge</h2>
+
+  <!-- Multiple choice: data-answer = correct input value. Distractors must be
+       what a slightly-wrong mental model would believe, not obvious junk. -->
+  <div class="q" data-answer="b">
+    <h3>Q1. {behavior-under-input question: "X arrives while Y — what happens now?"}</h3>
+    <label><input type="radio" name="q1" value="a"> {plausible distractor}</label>
+    <label><input type="radio" name="q1" value="b"> {correct behavior}</label>
+    <label><input type="radio" name="q1" value="c"> {the old behavior — classic trap}</label>
+    <label><input type="radio" name="q1" value="d"> {plausible distractor}</label>
+    <div class="explain">{why, with file:line pointer}</div>
+  </div>
+
+  <!-- Free text: graded by Claude in chat, not by the page. -->
+  <div class="q" data-free="true">
+    <h3>Q6. {blast-radius or rollback question}</h3>
+    <textarea placeholder="Your answer — paste it to Claude for grading against the code."></textarea>
+    <div class="explain">{model answer, with file:line}</div>
+  </div>
+
+  <div class="grade">
+    <button onclick="grade()">Grade my answers</button>
+    <div id="score"></div>
+    <div id="verdict"></div>
+  </div>
+
+</div>
+<script>
+function grade(){
+  const qs = document.querySelectorAll('.q[data-answer]');
+  let right = 0;
+  qs.forEach(q => {
+    const picked = q.querySelector('input:checked');
+    q.classList.remove('correct','wrong');
+    if (picked && picked.value === q.dataset.answer) { q.classList.add('correct'); right++; }
+    else { q.classList.add('wrong'); }
+  });
+  // Free-text questions: reveal the model answer for self-check / Claude grading.
+  document.querySelectorAll('.q[data-free]').forEach(q => { q.querySelector('.explain').style.display = 'block'; });
+  const total = qs.length;
+  const score = document.getElementById('score');
+  const verdict = document.getElementById('verdict');
+  const pass = right === total;
+  score.textContent = right + ' / ' + total + (document.querySelector('.q[data-free]') ? ' (+ free-text: paste answers to Claude)' : '');
+  score.className = pass ? 'pass' : 'fail';
+  verdict.textContent = pass
+    ? 'Perfect on multiple choice. Get the free-text answers checked, then merge.'
+    : 'Not yet — review the explanations above, then ask Claude for fresh variants of the missed questions. Merge only after a perfect pass.';
+}
+</script>
+</body>
+</html>

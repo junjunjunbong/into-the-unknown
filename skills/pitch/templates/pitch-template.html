@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{Feature}: pitch</title>
+<style>
+  :root { --ink:#1a1a1a; --muted:#6b6b6b; --line:#e5e2dc; --bg:#faf9f6; --accent:#c15f3c; --ok:#2e7d4f; --warn:#a8620a; }
+  * { box-sizing:border-box; margin:0; }
+  body { font:16px/1.6 ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:var(--bg); padding:2.5rem 1.25rem 5rem; }
+  .wrap { max-width:820px; margin:0 auto; }
+  h1 { font-size:1.7rem; letter-spacing:-.01em; }
+  .sub { color:var(--muted); margin:.35rem 0 1.5rem; }
+  h2 { font-size:1.15rem; margin:2.2rem 0 .7rem; padding-top:1.2rem; border-top:1px solid var(--line); }
+  p { margin:.5rem 0; }
+  .demo { border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+  .demo img { display:block; width:100%; }  /* embed as data: URI so the file stays self-contained */
+  .demo .cap { padding:.6rem .9rem; font-size:.85rem; color:var(--muted); border-top:1px solid var(--line); }
+  .problem { font-size:1.1rem; max-width:62ch; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:1rem 1.15rem; margin:.7rem 0; }
+  .card h3 { font-size:.95rem; margin-bottom:.3rem; }
+  .card .rej { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+  .card .rej b { color:var(--warn); font-weight:600; }
+  .dev { border-left:3px solid var(--warn); }
+  .focus li { margin:.35rem 0; }
+  code { font:.88em ui-monospace,monospace; background:#f0ede7; padding:.1em .35em; border-radius:4px; }
+  details { margin:.6rem 0; }
+  summary { cursor:pointer; color:var(--muted); font-size:.92rem; }
+  table { border-collapse:collapse; width:100%; font-size:.92rem; margin:.6rem 0; }
+  th,td { text-align:left; padding:.45rem .6rem; border-bottom:1px solid var(--line); vertical-align:top; }
+  .ok { color:var(--ok); } .warn { color:var(--warn); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>{Feature name}</h1>
+  <p class="sub">{one-line what-this-is} · {author} · {date} · <a href="{PR/branch link}">{branch}</a></p>
+
+  <!-- 1. THE DEMO — show, then tell -->
+  <figure class="demo">
+    <img src="data:image/gif;base64,…" alt="{what the demo shows}">
+    <figcaption class="cap">{one line: what to watch for}</figcaption>
+  </figure>
+
+  <!-- 2. THE PROBLEM — two sentences, zero-context reader -->
+  <h2>The problem</h2>
+  <p class="problem">{sentence 1: who hurts and how}. {sentence 2: why now}.</p>
+
+  <!-- 3. WHAT WAS BUILT — behavior first, then shape -->
+  <h2>What was built</h2>
+  <p>{user-visible behavior, 2–4 sentences}</p>
+  <details>
+    <summary>Implementation shape (data model, interfaces)</summary>
+    <p>{the altitude a reviewer needs to trust it, not re-derive it}</p>
+  </details>
+
+  <!-- 4. DECISIONS — each with the rejected alternative -->
+  <h2>Decisions and why</h2>
+  <div class="card">
+    <h3>{decision}</h3>
+    <p>{what was chosen and the reason}</p>
+    <p class="rej"><b>Rejected:</b> {alternative} — {one-line reason}</p>
+  </div>
+  <!-- repeat per Tier-1 decision -->
+
+  <!-- 5. DEVIATIONS — honesty is the credibility engine; never sand this down -->
+  <h2>What went differently than planned</h2>
+  <div class="card dev">
+    <h3>{deviation title}</h3>
+    <p><b>Expected:</b> {plan assumption} · <b>Found:</b> {reality}</p>
+    <p><b>Went with:</b> {choice} — {why it's the conservative option}</p>
+  </div>
+  <!-- repeat per deviation from implementation-notes.md -->
+
+  <!-- 6. RISKS / LIMITS / FOLLOW-UPS -->
+  <h2>Risks, limits, follow-ups</h2>
+  <table>
+    <tr><th>Item</th><th>Status</th></tr>
+    <tr><td>{untested path / known debt}</td><td class="warn">{follow-up planned}</td></tr>
+    <tr><td>{rollout}</td><td class="ok">{behind flag x}</td></tr>
+  </table>
+
+  <!-- 7. WHERE TO FOCUS REVIEW -->
+  <h2>Where to focus review</h2>
+  <ul class="focus">
+    <li><code>{file}</code> — {why this deserves real scrutiny}</li>
+    <li><code>{file}</code> — {…}</li>
+  </ul>
+
+</div>
+</body>
+</html>

@@ -38,6 +38,26 @@ after ────────┴─ /quiz ─────── merge only afte
 
 Start with `/unknowns` if you're not sure which technique you need — it maps your task into the knowns/unknowns 2×2 and routes you.
 
+## How the skills chain together
+
+The skills share an artifact directory, `.unknowns/` at your repo root (gitignored by default), so each one picks up where the previous left off:
+
+```
+.unknowns/
+  map.md                  ← /unknowns      knowns/unknowns 2×2 for the task
+  blindspot-<topic>.md    ← /blindspot     what you didn't know to ask
+  brainstorm-<topic>.html ← /brainstorm    throwaway prototypes to react to
+  decisions.md            ← /interview     append-only decision record (+ criteria from reactions)
+  plan-<topic>.md         ← /impl-plan     decisions-first implementation plan
+  pitch-<topic>.html      ← /pitch         buy-in doc built from notes + plan
+  quiz-<topic>.html       ← /quiz          interactive report + quiz
+implementation-notes.md   ← /impl-notes    deviations log, at repo root (per the article)
+```
+
+`/impl-plan` honors everything in `decisions.md`; `/impl-notes` logs deviations against the plan's "improvisation room"; `/pitch` and `/quiz` are generated from the notes and plan. The intended flow for a big feature: plan in one session, then **implement in a fresh session** passing only the artifacts.
+
+Several skills ship with templates (design-directions HTML skeleton, interactive quiz page with grading, implementation-notes format, decisions-first plan, pitch doc) under each skill's `templates/` directory — Claude fills them in rather than improvising a format each time.
+
 ## Skills
 
 | Command | Phase | What it does |

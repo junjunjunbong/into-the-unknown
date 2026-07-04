@@ -1,39 +1,44 @@
 ---
 name: impl-plan
 description: Write an implementation plan that leads with the decisions the user is most likely to change — data models, type interfaces, UX flows — and buries mechanical work at the bottom. Use when the user is ready to implement and wants a reviewable plan, or says "implementation plan".
+argument-hint: [feature or task to plan]
 ---
 
 # Implementation Plan (Decisions First)
 
-A plan's job is to surface the things the user might actually need to alter — not to prove you can enumerate steps. Order the plan by **likelihood the user will want to change it**, not by execution order.
+A plan's job is to surface the things the user might actually need to alter — not to prove you can enumerate steps. Order the plan by **likelihood the user will want to change it**, not by execution order. The user should be able to review Tier 1, skim Tier 2, and ignore Tier 3 entirely.
 
-## Structure the plan in three tiers
+## Step 0 — Gather inputs
+
+Read, in order: `.unknowns/decisions.md` (interview answers + brainstorm criteria), `.unknowns/blindspot-*.md`, `.unknowns/map.md`, and the relevant code. The plan must honor every recorded decision — if the code forces you to contradict one, that's a question for the user, not a silent override. If `.unknowns/` is empty and the task is ambiguous, offer `/interview` first; don't pad the plan with guesses.
+
+## The three tiers
+
+Write to `.unknowns/plan-<topic>.md` using [templates/plan-template.md](templates/plan-template.md). For big plans, offer a self-contained HTML version — decisions as scannable cards up top, mechanical detail collapsed at the bottom.
 
 ### Tier 1 — Decisions the user will most likely tweak (lead with these)
 
-- **Data model changes**: new tables/collections/fields, migrations, ownership, what's denormalized.
-- **Type interfaces & API contracts**: the signatures other code will depend on. Show the actual proposed types/schemas, not descriptions of them.
-- **Anything user-facing**: UX flows, copy, empty/error/loading states, what happens on the sad path.
+- **Data model changes**: new tables/collections/fields, migrations, ownership, what's denormalized. Show the actual DDL/schema diff.
+- **Type interfaces & API contracts**: the signatures other code will depend on. Show the **actual proposed code** — real type definitions, real endpoint shapes — not prose describing them. A user can veto `expiresAt: Date | null`; they can't veto "appropriate expiry handling".
+- **Anything user-facing**: flows, copy, empty/error/loading states, what happens on the sad path.
 
-For each, show the concrete proposal AND name the alternative you rejected with one line on why — the user can only veto a decision they can see.
+For each decision: the proposal, **the strongest alternative you rejected, and one line on why**. A user can only veto a decision they can see; a plan that presents choices as inevitabilities hides its unknowns.
 
 ### Tier 2 — Behavioral choices with medium blast radius
 
-Edge-case policy, failure handling, performance trade-offs, feature-flag/rollout strategy. State each as a decision with a default.
+Edge-case policy, failure handling, performance trade-offs, feature-flag/rollout strategy, test strategy. State each as *decision + default*: "On conflict: last-write-wins (default) — flag if you want merge."
 
 ### Tier 3 — Mechanical work (bury at the bottom)
 
-Refactors, wiring, test scaffolding, file-by-file changes. Keep it terse — the user trusts you on this part; it exists so the scope is visible, not for line-by-line review.
+Refactors, wiring, file-by-file changes, in execution order with rough sizes. Terse — it exists so the total scope is visible, not for line-by-line review. Tell the user so: "Tier 3 is listed for scope; I don't need review on it."
 
-## Also include
+## Two sections that make the plan survive contact with reality
 
-- **Open unknowns**: anything the plan couldn't settle, marked explicitly with your planned default if the user doesn't answer. Offer `/interview` if there are several.
-- **Improvisation room**: where the plan expects the territory might disagree (uninspected code paths, third-party behavior) and what the agent should do when it does — this is what implementation-notes deviations will be logged against.
+- **Open unknowns**: anything the plan couldn't settle, each with your planned default if the user doesn't answer. Several of these → offer `/interview` before implementing.
+- **Improvisation room**: where you expect the territory might disagree with the map — uninspected code paths, third-party behavior, data you haven't sampled — and the rule for each ("if the webhook payload lacks X, fall back to polling and log it"). This section is what `/impl-notes` deviations get logged against, so be honest about what you haven't verified.
 
-## Format
+## Review loop
 
-For plans of any real size, offer a self-contained HTML artifact — decisions as scannable cards up top, mechanical detail collapsed at the bottom. Small plans can stay as markdown in chat.
-
-## After review
-
-Once the user approves, recommend implementing in a **fresh session**, passing the plan (plus any spec/prototype artifacts) into the prompt, with `/impl-notes` active to log deviations.
+1. Present Tier 1 in chat (not just the file) and ask for vetoes/tweaks decision-by-decision.
+2. Fold in changes; append newly-made decisions to `.unknowns/decisions.md`.
+3. On approval, recommend implementing in a **fresh session**: pass the plan file + decision record + any prototype into the prompt, with `/impl-notes` active from the first edit. Planning context is spent context — the implementing session should start clean with only the artifacts.

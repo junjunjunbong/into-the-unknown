@@ -1,26 +1,51 @@
 ---
 name: interview
 description: Interview the user one question at a time to resolve ambiguities before implementation, prioritizing questions whose answers would change the architecture. Use when the user says "interview me", when a spec has open questions, or before implementing anything with unresolved ambiguity.
+argument-hint: [spec/topic to interview about]
 ---
 
 # Interview
 
 After brainstorming, unknowns usually remain. Instead of guessing at them during implementation, interview the user now — ambiguity resolved in conversation is far cheaper than ambiguity discovered in a diff.
 
-## How to run the interview
+## Step 0 — Study before asking
 
-1. **Study the task first.** Read the spec/prompt and the relevant code before asking anything. Every question must be grounded in a real fork in the road you found — never ask something you could answer yourself from the codebase.
+Read the spec/prompt, anything in `.unknowns/` (map, blindspot report, brainstorm criteria), and the relevant code **before the first question**. Every question must be grounded in a real fork in the road you found. Two hard rules:
 
-2. **One question at a time.** Use the AskUserQuestion tool if available (with concrete options plus trade-offs); otherwise ask in plain text. Never dump a questionnaire.
+- Never ask something the codebase can answer ("do you use Postgres?" — go look).
+- Never ask something already answered in `.unknowns/decisions.md` or the conversation.
 
-3. **Prioritize by blast radius.** Ask first the questions whose answers would **change the architecture** — data model shape, source of truth, sync vs async, multi-tenancy, API contracts. Then user-facing behavior and edge-case policy. Cosmetic and easily-reversible choices last, or not at all — say you'll use your judgment on those.
+Build a private list of candidate forks, then sort by blast radius (below) and start asking.
 
-4. **Make each question cheap to answer.** Offer 2–4 concrete options with one-line trade-offs and a recommendation. "Which of these three?" beats "what do you want?".
+## Question priority: sort by blast radius
 
-5. **Follow the thread.** If an answer reveals a new fork, pursue it before moving on. If an answer invalidates earlier assumptions — including the premise of the task itself — say so immediately; sometimes the interview reveals the problem should be solved a different way altogether.
+**Tier 1 — answers that change the architecture** (always ask these first):
+- Data model shape: what's an entity vs a field, what's the source of truth, what gets denormalized
+- Contract surface: API shapes, event schemas, anything other code will depend on
+- Sync vs async, consistency requirements, multi-tenancy/scoping
+- Build-on vs replace: extend the existing module or start a new one
 
-6. **Know when to stop.** Stop when remaining questions wouldn't change what you'd build first. Typically 3–8 questions. Respect "just decide" — record your choice and the reason.
+**Tier 2 — user-visible behavior and policy:**
+- Sad paths: what does the user see on failure/empty/conflict
+- Edge-case policy: limits, ordering, duplicates, timezones, permissions
+- Rollout: feature flag? migration of existing data?
 
-## Deliverable
+**Tier 3 — reversible/cosmetic** (usually don't ask): naming, styling, file layout. Say "I'll use my judgment on naming and layout" instead of asking.
 
-End with a **decision record**: each question, the chosen answer, and its consequence for the implementation. Fold it into the spec or hand it to `/impl-plan`. The user should be able to start a fresh session with just this artifact and lose nothing.
+## How to ask
+
+1. **One question at a time.** Use AskUserQuestion when available; plain text otherwise. Never dump a questionnaire.
+2. **Make it cheap to answer**: 2–4 concrete options, each with a one-line trade-off, and mark your recommended option. "Which of these three?" beats "what do you want?".
+3. **Show the stakes** in the question itself: "If A, we add a `status` column; if B, we need a new table + backfill."
+4. **Follow the thread.** If an answer opens a new Tier-1 fork, pursue it before moving on. If an answer invalidates the premise of the task, say so immediately — sometimes the interview reveals the problem should be solved a different way altogether. That's a success, not a derail.
+5. **Respect "just decide."** Record your choice AND the reason in the decision record, marked `(delegated)`.
+
+## Stop condition
+
+Stop when the remaining questions wouldn't change what you'd build first — typically 3–8 questions. Announce it: "Remaining unknowns are all Tier 3 or discoverable during implementation; stopping here."
+
+## Deliverable — the decision record
+
+Append every resolved question to `.unknowns/decisions.md` using [templates/decision-record-template.md](templates/decision-record-template.md): the question, the chosen answer, the rejected options, and the consequence for implementation.
+
+The bar: **a fresh session given only this file (plus the spec) should lose nothing from this conversation.** End by offering `/impl-plan`, which consumes the decision record directly.

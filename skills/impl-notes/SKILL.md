@@ -1,34 +1,50 @@
 ---
 name: impl-notes
 description: Keep a running implementation-notes.md during implementation, logging decisions and plan deviations so they can be reviewed and learned from. Use when starting implementation from a plan or spec, or when the user says "keep implementation notes" or "log deviations".
+argument-hint: [task being implemented]
 ---
 
 # Implementation Notes
 
 No matter how much planning happened, unknown unknowns lurk in the territory. During implementation you'll hit edge cases the plan didn't anticipate and be forced to take a different tack. Don't let those decisions evaporate into the diff — log them so the user can review them and learn from them on the next attempt.
 
-## Setup
+This skill changes how you behave **for the rest of the implementation session**, not just at invocation time.
 
-At the start of implementation, create `implementation-notes.md` at the repo root (or where the user asks; `.html` if they prefer). Header: the task, the plan/spec artifact it came from, and the date. Add it to `.gitignore` if the user doesn't want it committed — ask once, then remember.
+## Setup (once, at the start)
 
-## The deviation rule
+1. Create `implementation-notes.md` at the repo root from [templates/implementation-notes-template.md](templates/implementation-notes-template.md). Header: the task, the plan/spec artifact it came from (link the `.unknowns/plan-*.md` file if one exists), and the date. Use `.html` instead if the user prefers.
+2. Ask once whether to commit it or gitignore it; remember the answer.
+3. If a plan exists, copy its **Improvisation room** entries into the notes as pre-declared latitude — deviations get judged against these.
+
+## The deviation rule (apply at every unplanned fork)
 
 Whenever the territory forces a choice the plan didn't cover:
 
-1. **Pick the conservative option** — the one that's easiest to reverse and closest to the plan's intent.
-2. **Log it under `## Deviations`** with: what was expected, what was actually found (with `file:line` pointers), the option chosen, the alternatives, and why.
-3. **Keep going.** Do not stall implementation to ask about every pothole — the log is the mechanism that makes autonomous progress safe.
+1. **Pick the conservative option** — easiest to reverse, closest to the plan's intent, smallest blast radius. Concretely: prefer the option that doesn't change a schema, doesn't widen a public interface, and doesn't touch files outside the plan's scope.
+2. **Log it under `## Deviations` immediately** — at the moment of the decision, not reconstructed at the end. Entry shape (2–5 lines):
 
-Exception: if a deviation would invalidate a Tier-1 decision from the plan (data model, public interface, user-facing behavior), stop and ask instead of improvising.
+   ```
+   ### DEV-3: {title}
+   - Expected (plan §): {what the plan assumed}
+   - Found: {reality, with file:line}
+   - Chose: {option} — conservative because {reversibility argument}
+   - Alternatives: {option} (rejected: {why})
+   ```
 
-## Also log
+3. **Keep going.** Do not stall to ask about every pothole — the log is what makes autonomous progress safe to review afterward.
 
-- `## Decisions` — choices made within the plan's improvisation room (the plan allowed latitude; record what you did with it).
-- `## Surprises` — things about the codebase that contradicted assumptions, even if no deviation was needed. These are next session's unknowns, pre-discovered.
-- `## Follow-ups` — debt knowingly incurred, tests deferred, TODOs with locations.
+**Escalation exception:** if a deviation would invalidate a **Tier-1 decision** from the plan (data model, public interface, user-facing behavior) or contradict an entry in `.unknowns/decisions.md`, STOP and ask instead of improvising. Log the question under `## Escalations` with your recommendation so the context isn't lost while waiting.
 
-Keep entries short — two to five lines each, written at the moment of the decision, not reconstructed at the end.
+## Also log, as they happen
 
-## Wrap-up
+- `## Decisions` — choices made *within* the plan's improvisation room (the plan allowed latitude; record what you did with it).
+- `## Surprises` — codebase facts that contradicted assumptions even when no deviation was needed ("the cache layer already dedupes; plan step 3.2 was unnecessary"). These are next session's unknowns, pre-discovered.
+- `## Follow-ups` — debt knowingly incurred, tests deferred, TODOs with `file:line`.
 
-When implementation finishes, summarize the Deviations section to the user first — it's the list of places where reality disagreed with the plan, which is exactly what they need to review most carefully. Offer `/quiz` to verify their understanding of the change, and `/pitch` if they need buy-in. The notes file also feeds the next planning session: recurring deviations mean the planning process has a systematic blind spot.
+Keep entries terse. The discipline is *when* (immediately) and *where* (the right section), not length.
+
+## Wrap-up (end of session)
+
+1. Present the **Deviations** section to the user first — it's the exact list of places reality disagreed with the plan, which is what they must review most carefully. Then Escalations still open, then Follow-ups.
+2. Offer the next steps: `/quiz` to verify their understanding of the change; `/pitch` if they need buy-in.
+3. Meta-signal: if the same *kind* of deviation appears 2+ times (e.g. repeated schema surprises), say so — it means the planning process has a systematic blind spot, and the next `/impl-plan` should inspect that area up front.

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{Topic} — Design Directions</title>
+<style>
+  /* Chrome for the comparison page itself. Each direction defines its OWN look inside its stage. */
+  :root { --ink:#1a1a1a; --muted:#6b6b6b; --line:#e5e2dc; --bg:#faf9f6; --accent:#c15f3c; }
+  * { box-sizing:border-box; margin:0; }
+  body { font:16px/1.55 ui-sans-serif,system-ui,sans-serif; color:var(--ink); background:var(--bg); padding:2.5rem 1.25rem 5rem; }
+  .wrap { max-width:1080px; margin:0 auto; }
+  header h1 { font-size:1.6rem; letter-spacing:-.01em; }
+  header p { color:var(--muted); max-width:60ch; margin-top:.4rem; }
+  .howto { margin:1.25rem 0 2.5rem; padding:1rem 1.25rem; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:.95rem; }
+  .howto strong { color:var(--accent); }
+
+  .direction { margin-bottom:3.5rem; }
+  .direction > .label { display:flex; align-items:baseline; gap:.75rem; margin-bottom:.75rem; }
+  .direction > .label .tag { font-weight:700; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:var(--ink); padding:.2rem .55rem; border-radius:999px; }
+  .direction > .label h2 { font-size:1.2rem; }
+  .direction > .label .axis { color:var(--muted); font-size:.9rem; }
+
+  /* The stage: an isolated canvas per direction. Give each stage a scoped class
+     (e.g. .d1, .d2) and style everything inside it independently — different
+     fonts, colors, densities. Directions must NOT share visual styling. */
+  .stage { border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+
+  .react { margin-top:.6rem; font-size:.9rem; color:var(--muted); }
+  .react b { color:var(--ink); }
+
+  footer { margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--line); color:var(--muted); font-size:.95rem; }
+  footer ul { margin:.5rem 0 0 1.2rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>{Topic}: {N} design directions</h1>
+    <p>Same fake data, {N} deliberately different takes. React to each — the goal is to find out what you want by seeing what you don't.</p>
+  </header>
+
+  <div class="howto">
+    <strong>How to react:</strong> for each direction say what <b>pulls you in</b>, what <b>repels you</b>, and which <b>elements to steal</b> even if the direction loses. "B's layout with D's colors" is a perfect answer.
+  </div>
+
+  <!-- ============ DIRECTION A ============ -->
+  <section class="direction">
+    <div class="label">
+      <span class="tag">A</span>
+      <h2>{Memorable name, e.g. "Dense cockpit"}</h2>
+      <span class="axis">{the axis it explores, e.g. maximum information density}</span>
+    </div>
+    <div class="stage d1">
+      <!-- Fully mocked UI for direction A. Own fonts/colors/layout, realistic fake
+           data incl. edge cases (long names, empty state, big numbers). -->
+    </div>
+    <p class="react"><b>Trade-off:</b> {one honest line about what this direction sacrifices}</p>
+  </section>
+
+  <!-- ============ DIRECTION B ============ -->
+  <section class="direction">
+    <div class="label">
+      <span class="tag">B</span>
+      <h2>{Name}</h2>
+      <span class="axis">{axis}</span>
+    </div>
+    <div class="stage d2">
+      <!-- Direction B — different layout paradigm, not a recolor of A. -->
+    </div>
+    <p class="react"><b>Trade-off:</b> {…}</p>
+  </section>
+
+  <!-- Duplicate the section block for directions C, D, (E). Vary REAL axes:
+       density · layout paradigm (cards/table/canvas) · navigation model ·
+       tone (clinical/playful) · what's emphasized first. -->
+
+  <footer>
+    Prototype only — fake data, nothing wired up. Lives in <code>.unknowns/</code>, safe to delete.
+    <ul>
+      <li>Every reaction gets written down as a criterion in <code>.unknowns/decisions.md</code>.</li>
+      <li>Next round: winning direction + stolen elements, then <code>/interview</code> or <code>/impl-plan</code>.</li>
+    </ul>
+  </footer>
+
+</div>
+</body>
+</html>
