@@ -48,11 +48,11 @@ Write to `.unknowns/pitch-<topic>.html` from [templates/pitch-template.html](tem
 - Keep the private session vocabulary out ("DEV-3", "the Tier-1 thing") — expand every reference into plain language.
 - **Never send the document anywhere** (Slack, PR, email) yourself without explicit confirmation. Produce the artifact, show it to the user, hand it over.
 
-## Unknowns ledger (quiet bookkeeping)
+## Unknowns ledger (silent, but always updated)
 
-`.unknowns/ledger.md` tracks open unknowns as `U#` entries so nothing is lost across sessions — but it is YOUR bookkeeping, not the user's homework.
+`.unknowns/ledger.md` is the cross-session index of open unknowns. **The file work is mandatory; talking about it is not.**
 
-- Never ask the user to read or maintain the ledger, never block work on it, and don't recite it. Mention a `U#` only when it disambiguates.
-- **Proportionality**: for single-session, small-scope work, skip the file entirely and just track open questions in conversation. Touch the file only when the work will outlive this session (a plan exists, implementation is coming) or the user asks.
-- End the skill with at most one plain-language sentence of movement — what got settled, what's still open and the default you'll use (e.g. "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."). No ritual, no jargon; skip even this if nothing moved.
-- What counts as settled (for this skill): this skill settles nothing — but 'what went differently' should be pulled from the late-opened items. Settled means the *user* said or confirmed it — writing it into a report does not count.
+- **Start — always**: if the file exists, read it silently. Don't re-ask what's already settled; do target what's open.
+- **End — always**: if this pass opened or settled ANY unknown, write the delta to the file before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. If nothing opened or settled, leave the file alone.
+- **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
+- **What counts as settled**: this skill settles nothing — but 'what went differently' should be pulled from the late-opened items. Settled means the *user* said or confirmed it — writing it into a report does not count.

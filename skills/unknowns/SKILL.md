@@ -41,9 +41,9 @@ implementation-notes.md  ← /impl-notes (repo root, per the original article)
 
 Before starting, check whether `.unknowns/` already has artifacts for this task — if so, read them first and build on them instead of restarting. Ask once whether to gitignore `.unknowns/`; default to adding it to `.gitignore`.
 
-### The ledger (`.unknowns/ledger.md`) — quiet bookkeeping
+### The ledger (`.unknowns/ledger.md`) — silent, but always updated
 
-The ledger keeps open unknowns from getting lost across sessions. It is **Claude's bookkeeping, not the user's homework** — the user should feel their questions getting settled in conversation, not be shown accounting.
+The ledger is the cross-session index of open unknowns. It is **Claude's bookkeeping, not the user's homework**: the file work is mandatory, talking about it is not. The user should feel their questions getting settled in conversation, never be shown accounting.
 
 ```markdown
 | #  | Unknown (as a decidable question)        | Opened by   | Status |
@@ -54,9 +54,9 @@ The ledger keeps open unknowns from getting lost across sessions. It is **Claude
 
 Rules every skill follows:
 
-1. **Proportionality first**: for single-session, small-scope work, don't create the file at all — track open questions in conversation. The file earns its existence only when work will outlive the session (a plan exists, implementation is coming) or the user asks.
-2. **Quiet updates**: read/update the file silently. Never ask the user to look at it, never recite it, never block on it. Mention a `U#` only when it disambiguates.
-3. **End of a skill**: at most one plain-language sentence of movement — "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins." Skip it when nothing moved.
+1. **Start — always**: if the file exists, read it silently. Don't re-ask what's settled; do target what's open.
+2. **End — always**: if the pass opened or settled ANY unknown, write the delta before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. Nothing moved → don't touch the file.
+3. **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement, skipped when nothing moved. Mention a `U#` only when it disambiguates.
 4. **What counts as settled**: only the *user's* articulation or confirmation — a decision they made, a criterion they voiced, a teach-back they passed. Claude writing the answer in a report does not settle it.
 
 ## Step 0 — Gate: is there a task? (HARD STOP)

@@ -116,7 +116,7 @@ Skills ship with templates (design-directions page, interactive quiz with gradin
 
 ### The ledger: quiet bookkeeping, strict settling
 
-`.unknowns/ledger.md` keeps open unknowns from getting lost across sessions — but it's Claude's bookkeeping, not your homework. You never maintain it, never get it recited at you, and for small single-session work it isn't even created. What you see is at most one plain sentence when something moves: *"Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."*
+`.unknowns/ledger.md` keeps open unknowns from getting lost across sessions — but it's Claude's bookkeeping, not your homework. The split: **file updates are mandatory** (every skill reads it silently at start and writes the delta at end, so continuity never depends on anyone's memory), **chat is quiet** (you never maintain it or get it recited at you). What you see is at most one plain sentence when something moves: *"Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."*
 
 The settling rule is strict on purpose: an unknown counts as settled only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). Claude writing the answer into a document does not count; that only moves the unknown from your head into a file.
 
