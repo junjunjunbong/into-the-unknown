@@ -114,11 +114,13 @@ implementation-notes.md   ← /impl-notes    deviations log (repo root, per the 
 
 Skills ship with templates (design-directions page, interactive quiz with grading, implementation-notes format, decisions-first plan, pitch doc) so Claude fills in a proven format instead of improvising one each time.
 
-### The ledger: watching your unknowns actually close
+### The ledger: quiet bookkeeping, strict settling
 
-The plugin's progress bar is `.unknowns/ledger.md`: every unknown becomes a numbered entry (`U1`, `U2`, …) with a lifecycle, and **every skill ends with a closing ritual** in chat — `Closed: U2 (criterion voiced) · Opened: U9 · Still open: U3 (default: last-write-wins)`.
+`.unknowns/ledger.md` keeps open unknowns from getting lost across sessions — but it's Claude's bookkeeping, not your homework. You never maintain it, never get it recited at you, and for small single-session work it isn't even created. What you see is at most one plain sentence when something moves: *"Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."*
 
-The closing rule is strict on purpose: an entry closes only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). Claude writing the answer into a document does not count; that only moves the unknown from your head into a file. The felt sense of "my unknowns are getting filled" is exactly entries flipping to ✅ because you can now say things you couldn't say before.
+The settling rule is strict on purpose: an unknown counts as settled only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). Claude writing the answer into a document does not count; that only moves the unknown from your head into a file.
+
+Relatedly, `/unknowns` opens with **hypotheses, not a diagnosis**: a small draft map (5–8 items, guesses tagged as guesses, questions about you phrased as questions) that you correct before anything is written or routed. Every "no, actually…" you reply with is the mechanism working.
 
 ## The spirit of the thing
 

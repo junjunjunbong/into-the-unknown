@@ -49,10 +49,11 @@ Every reaction converts an unknown known into a known known. **Write each one do
 - Don't polish. A prototype at 80% fidelity in one round beats 99% in three; the missing 20% is often what prompts the most useful reactions.
 - When done, summarize: chosen direction/options + the criteria list, and route onward — `/interview` if ambiguities remain, `/impl-plan` if ready to build.
 
-## Unknowns ledger
+## Unknowns ledger (quiet bookkeeping)
 
-All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+`.unknowns/ledger.md` tracks open unknowns as `U#` entries so nothing is lost across sessions — but it is YOUR bookkeeping, not the user's homework.
 
-- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
-- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
-- **Closing rule for this skill**: an entry closes only when the user's reaction is voiced and captured as an explicit criterion in `decisions.md`. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.
+- Never ask the user to read or maintain the ledger, never block work on it, and don't recite it. Mention a `U#` only when it disambiguates.
+- **Proportionality**: for single-session, small-scope work, skip the file entirely and just track open questions in conversation. Touch the file only when the work will outlive this session (a plan exists, implementation is coming) or the user asks.
+- End the skill with at most one plain-language sentence of movement — what got settled, what's still open and the default you'll use (e.g. "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."). No ritual, no jargon; skip even this if nothing moved.
+- What counts as settled (for this skill): an entry settles only when the user's reaction is voiced and captured as an explicit criterion in `decisions.md`. Settled means the *user* said or confirmed it — writing it into a report does not count.

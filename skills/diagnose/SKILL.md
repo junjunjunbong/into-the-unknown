@@ -55,10 +55,11 @@ Scale the retry to the size of the gap:
 
 Don't rebuild from scratch reflexively — say which parts of the existing work survive the diagnosis and reuse them.
 
-## Unknowns ledger
+## Unknowns ledger (quiet bookkeeping)
 
-All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+`.unknowns/ledger.md` tracks open unknowns as `U#` entries so nothing is lost across sessions — but it is YOUR bookkeeping, not the user's homework.
 
-- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
-- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
-- **Closing rule for this skill**: the diagnosis retroactively opens the entry that was missed, and the banked lesson closes it — that pairing is the whole point. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.
+- Never ask the user to read or maintain the ledger, never block work on it, and don't recite it. Mention a `U#` only when it disambiguates.
+- **Proportionality**: for single-session, small-scope work, skip the file entirely and just track open questions in conversation. Touch the file only when the work will outlive this session (a plan exists, implementation is coming) or the user asks.
+- End the skill with at most one plain-language sentence of movement — what got settled, what's still open and the default you'll use (e.g. "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."). No ritual, no jargon; skip even this if nothing moved.
+- What counts as settled (for this skill): the diagnosis retroactively names the item that was missed; the banked lesson settles it. Settled means the *user* said or confirmed it — writing it into a report does not count.

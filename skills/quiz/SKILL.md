@@ -54,10 +54,11 @@ Format: multiple choice (4 options) with **plausible distractors** — each wron
 - The bar is a **perfect pass before merge**. On a fail, offer a walkthrough of the weak area, then re-quiz the missed concepts.
 - Meta-signal: if the user can't pass after a walkthrough, say so plainly — code the author can't explain is code reviewers can't review. Offer to simplify that area before merging.
 
-## Unknowns ledger
+## Unknowns ledger (quiet bookkeeping)
 
-All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+`.unknowns/ledger.md` tracks open unknowns as `U#` entries so nothing is lost across sessions — but it is YOUR bookkeeping, not the user's homework.
 
-- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
-- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
-- **Closing rule for this skill**: a perfect pass closes the meta-unknown 'do I understand what was built'; each failed question REOPENS its topic until the fresh-variant is answered correctly. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.
+- Never ask the user to read or maintain the ledger, never block work on it, and don't recite it. Mention a `U#` only when it disambiguates.
+- **Proportionality**: for single-session, small-scope work, skip the file entirely and just track open questions in conversation. Touch the file only when the work will outlive this session (a plan exists, implementation is coming) or the user asks.
+- End the skill with at most one plain-language sentence of movement — what got settled, what's still open and the default you'll use (e.g. "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."). No ritual, no jargon; skip even this if nothing moved.
+- What counts as settled (for this skill): a perfect pass settles 'do I understand what was built'; each failed question reopens its topic until a fresh variant is answered correctly. Settled means the *user* said or confirmed it — writing it into a report does not count.

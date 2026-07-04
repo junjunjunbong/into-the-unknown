@@ -8,7 +8,7 @@ argument-hint: [task or problem description]
 
 The map is not the territory. The map is the user's prompt, skills, and context — what they give you. The territory is where the work actually happens: the codebase, the real world, its actual constraints. The gap between them is **unknowns**, and when you hit an unknown you're forced to guess. The quality of long-horizon work is bottlenecked by how well the user's unknowns get clarified — before, during, and after implementation.
 
-Your job in this skill: build a concrete unknowns map for THIS task, then route the user to the right technique. The map must be task-specific — a generic 2×2 with abstract labels is a failure.
+Your job in this skill: help the user map THEIR unknowns for this task, then route them to the right technique. Two failure modes to avoid: a generic 2×2 with abstract labels, and — worse — a confident *diagnosis* of the user. You've known them for three questions; the map is your **hypothesis about their terrain**, offered for correction, not a verdict about what they do and don't know. The 2×2 is a thinking tool you hand them, not an assessment you perform on them.
 
 ## Stance (applies to every skill in this plugin)
 
@@ -19,7 +19,8 @@ Your job in this skill: build a concrete unknowns map for THIS task, then route 
 - **HTML by default for artifacts.** For anything meant to be *reacted to* — prototypes, plans, reports, quizzes — a self-contained HTML page beats markdown at representing it.
 - **The artifact composes the reply.** Reacting is easier than imagining — and easier than typing. Every artifact must carry reaction controls that build the user's next message for them: copy buttons on each finding and on the consolidated improved prompt, "this resonates" checkboxes that aggregate into a reply, steal/skip chips per design detail, copyable override templates per plan decision. The user taps what they feel and pastes back one composed reply; they should never have to hand-write a response to an artifact.
 - **The second deliverable is the user's skill.** Reducing and planning for unknowns IS the skill of agentic coding, and it improves by working with Claude. When a pass converts an unknown into something the user can now articulate, point it out — that's them getting better at prompting, which outlasts this task.
-- **A document is not a closed unknown.** An unknown lives in the user's head; writing the answer into a report only moves it into a file. It counts as CLOSED only when the user has articulated or confirmed the answer in their own words. Every skill tracks this in the ledger (below) and ends by reporting the delta — that visible open→closed movement is what "my unknowns are getting filled" feels like.
+- **A document is not a settled unknown.** An unknown lives in the user's head; writing the answer into a report only moves it into a file. It counts as SETTLED only when the user has articulated or confirmed the answer in their own words — a decision made, a criterion voiced, a teach-back passed.
+- **Hypotheses, not diagnoses.** Anything you claim about what the user knows, assumes, or hasn't considered is a guess made from minutes of contact. Present such claims as questions or tagged guesses and let the user correct them; never write "your unknowns are…" as settled fact. Being corrected IS the mechanism working — a wrong guess that provokes "no, actually…" just surfaced real information.
 
 ## Artifact convention (shared by all into-the-unknown skills)
 
@@ -40,23 +41,23 @@ implementation-notes.md  ← /impl-notes (repo root, per the original article)
 
 Before starting, check whether `.unknowns/` already has artifacts for this task — if so, read them first and build on them instead of restarting. Ask once whether to gitignore `.unknowns/`; default to adding it to `.gitignore`.
 
-### The ledger (`.unknowns/ledger.md`)
+### The ledger (`.unknowns/ledger.md`) — quiet bookkeeping
 
-The ledger is the plugin's progress bar: every unknown is a numbered entry with a lifecycle, and every skill opens and closes entries against it.
+The ledger keeps open unknowns from getting lost across sessions. It is **Claude's bookkeeping, not the user's homework** — the user should feel their questions getting settled in conversation, not be shown accounting.
 
 ```markdown
-| #  | Unknown (as a decidable question)        | Kind | Opened by   | Status |
-|----|------------------------------------------|------|-------------|--------|
-| U1 | What does "good" look like for grading?  | UU   | /blindspot  | ✅ closed by teach-back |
-| U2 | Dense tables or airy cards?              | UK   | /unknowns   | ✅ closed by /brainstorm — criterion: dense |
-| U3 | Conflict policy on concurrent edits?     | KU   | /interview  | ⏳ open — default: last-write-wins |
+| #  | Unknown (as a decidable question)        | Opened by   | Status |
+|----|------------------------------------------|-------------|--------|
+| U1 | What does "good" look like for grading?  | /blindspot  | ✅ teach-back passed |
+| U3 | Conflict policy on concurrent edits?     | /interview  | ⏳ open — default: last-write-wins |
 ```
 
-Kinds: `KU` known unknown · `UK` unknown known · `UU` unknown unknown. Rules every skill follows:
+Rules every skill follows:
 
-1. **Start**: read the ledger (create if missing) and name which open entries this pass targets.
-2. **End — the closing ritual**: report the delta in chat, explicitly: `Closed: U2 (criterion voiced) · Opened: U9 · Still open: U3 (default: last-write-wins)`. Then update the file. Never end a skill without this line.
-3. **Closing rule**: an entry closes only on the *user's* articulation or confirmation — a decision they made, a criterion they voiced, a teach-back they passed. Claude writing the answer in a report does not close it.
+1. **Proportionality first**: for single-session, small-scope work, don't create the file at all — track open questions in conversation. The file earns its existence only when work will outlive the session (a plan exists, implementation is coming) or the user asks.
+2. **Quiet updates**: read/update the file silently. Never ask the user to look at it, never recite it, never block on it. Mention a `U#` only when it disambiguates.
+3. **End of a skill**: at most one plain-language sentence of movement — "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins." Skip it when nothing moved.
+4. **What counts as settled**: only the *user's* articulation or confirmation — a decision they made, a criterion they voiced, a teach-back they passed. Claude writing the answer in a report does not settle it.
 
 ## Step 0 — Gate: is there a task? (HARD STOP)
 
@@ -88,34 +89,34 @@ Spend a few minutes grounding the map in reality before writing it:
 
 This is scouting, not a full blindspot pass — just enough that the unknown-unknowns quadrant contains real items, not placeholders.
 
-## Step 3 — Build the 2×2 map
+## Step 3 — Draft the map as hypotheses, in chat
 
-Write `.unknowns/map.md` and show it to the user:
+Do NOT write any file yet, and do NOT present conclusions. Present a **draft map in chat**, small and clearly marked as guesswork, using the 2×2 as the frame:
 
-| Quadrant | Definition | What goes here |
+| Quadrant | Definition | How to present items |
 |---|---|---|
-| **Known knowns** | What's already in the prompt. | Restate their stated requirements as bullet points. If a "requirement" is actually ambiguous, move it down a row. |
-| **Known unknowns** | What they haven't figured out yet, and know they haven't. | Open questions they've voiced or implied. Phrase each as a decidable question. |
-| **Unknown knowns** | So obvious they'd never write it down, but they'd recognize it if they saw it. | Taste, house conventions, "like our other pages", implicit users/scale. Flag these as *assumptions you would otherwise guess at*. |
-| **Unknown unknowns** | Not considered at all. | From your scouting: prior art in the codebase, constraints they haven't hit yet, what "good" looks like in this domain, potholes. |
+| **Known knowns** | What's already in the prompt. | Restate their stated requirements. Safe to state plainly — they said it. |
+| **Known unknowns** | What they haven't figured out yet, and know they haven't. | Open questions they've voiced or implied, each as a decidable question. |
+| **Unknown knowns** | So obvious they'd never write it down, but they'd recognize it if they saw it. | **You cannot know these — only fish for them.** Phrase every item as a question: "혹시 X는 이미 정해져 있나요?" / "Should this match how your other pages do it?" |
+| **Unknown unknowns** | Not considered at all. | From your scouting, and only from it. Each item cites its evidence (`file:line`, git history) — the evidence is what makes it more than a guess about the user. |
 
-Rules for a useful map:
-- Every item names something concrete (a file, a decision, a behavior) — "the auth module uses per-tenant keys, your plan assumes global" not "codebase conventions".
-- 3–7 items per quadrant. If a quadrant is empty, say why (e.g. "you're expert here — thin quadrant").
-- Mark the 2–3 items with the biggest blast radius with ⚠ — these drive the routing.
+Rules for the draft:
+- **Small**: 5–8 items *total*, not per quadrant — the 2–3 highest-stakes ⚠ candidates plus a handful. A 20-item map is a lecture; this is an opening move in a conversation.
+- **Tagged honestly**: each lower-quadrant item carries `(guess)` or `(evidence: …)`. Language stays interrogative for anything about the *user* ("do you already have a take on…?") and declarative only for the *territory* ("the auth module uses per-tenant keys — `auth/keys.ts:40`").
+- Concrete over abstract: a file, a decision, a behavior — never "codebase conventions".
 
-Then **seed the ledger**: every item in the lower three quadrants becomes a numbered `U#` entry in `.unknowns/ledger.md` (⚠ items first). This skill *opens* entries; it rarely closes any — the routed techniques do the closing, and from now on progress is visible as entries flipping to ✅.
-
-**Let the map collect its own corrections.** Validating the map must be a paste, not an essay. Under the map, give paste-back correction lines:
+Then invite corrections — a paste or a tap, not an essay:
 
 ```
-Wrong U4 — {actually: …}
-Promote U7   (this one is ⚠, you underrated it)
-Demote U2    (not actually a concern because …)
+Wrong: {item} — actually …
+Promote: {item}   (higher stakes than you think)
+Demote: {item}    (not a concern because …)
 Missing: {an unknown you didn't list}
 ```
 
-("map is right" is also a valid reply.) In an HTML map, the same verbs become tap-able chips per item with a composed reply at the bottom. Don't route (Step 4) until the user has confirmed or corrected the map — routing on a wrong map sends them to the wrong technique.
+("map is right" is a valid reply.) **The corrections are the product** — every "no, actually…" is the user articulating something that was invisible a minute ago.
+
+Only after the user reacts: write the corrected map to `.unknowns/map.md`, silently seed the ledger from it if the work warrants a ledger at all (see proportionality), and move to routing. Don't route on an unconfirmed map — a wrong map sends them to the wrong technique.
 
 ## Step 4 — Route to the next technique
 

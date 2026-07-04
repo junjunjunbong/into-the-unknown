@@ -47,10 +47,11 @@ Refactors, wiring, file-by-file changes, in execution order with rough sizes. Te
 2. Fold in changes; append newly-made decisions to `.unknowns/decisions.md`.
 3. On approval, recommend implementing in a **fresh session**: pass the plan file + decision record + any prototype into the prompt, with `/impl-notes` active from the first edit. Planning context is spent context — the implementing session should start clean with only the artifacts.
 
-## Unknowns ledger
+## Unknowns ledger (quiet bookkeeping)
 
-All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+`.unknowns/ledger.md` tracks open unknowns as `U#` entries so nothing is lost across sessions — but it is YOUR bookkeeping, not the user's homework.
 
-- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
-- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
-- **Closing rule for this skill**: this skill closes nothing — it consolidates. List every still-open entry under 'Open unknowns' with its planned default; a plan hiding open entries is lying about its confidence. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.
+- Never ask the user to read or maintain the ledger, never block work on it, and don't recite it. Mention a `U#` only when it disambiguates.
+- **Proportionality**: for single-session, small-scope work, skip the file entirely and just track open questions in conversation. Touch the file only when the work will outlive this session (a plan exists, implementation is coming) or the user asks.
+- End the skill with at most one plain-language sentence of movement — what got settled, what's still open and the default you'll use (e.g. "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."). No ritual, no jargon; skip even this if nothing moved.
+- What counts as settled (for this skill): this skill settles nothing — it consolidates; list every still-open item under 'Open unknowns' with its planned default. Settled means the *user* said or confirmed it — writing it into a report does not count.

@@ -57,10 +57,11 @@ Keep entries terse. The discipline is *when* (immediately) and *where* (the righ
 2. Offer the next steps: `/quiz` to verify their understanding of the change; `/pitch` if they need buy-in.
 3. Meta-signal: if the same *kind* of deviation appears 2+ times (e.g. repeated schema surprises), say so — it means the planning process has a systematic blind spot, and the next `/impl-plan` should inspect that area up front.
 
-## Unknowns ledger
+## Unknowns ledger (quiet bookkeeping)
 
-All skills in this plugin track unknowns as numbered `U#` entries in `.unknowns/ledger.md` (see `/unknowns` for the format).
+`.unknowns/ledger.md` tracks open unknowns as `U#` entries so nothing is lost across sessions — but it is YOUR bookkeeping, not the user's homework.
 
-- **Start**: read the ledger (create it if missing) and name which open entries this pass targets.
-- **End — closing ritual, never skip**: report the delta in chat: `Closed: U2 (how) · Opened: U9 · Still open: U3 (default: …)`, then update the file.
-- **Closing rule for this skill**: this skill mostly OPENS entries: every Deviation and Surprise is a new `U#` (an unknown discovered late, in the territory). Closing them happens in review, `/quiz`, or `/diagnose`. Writing something into a report or plan does NOT close an entry — only the user's own articulation or confirmation does.
+- Never ask the user to read or maintain the ledger, never block work on it, and don't recite it. Mention a `U#` only when it disambiguates.
+- **Proportionality**: for single-session, small-scope work, skip the file entirely and just track open questions in conversation. Touch the file only when the work will outlive this session (a plan exists, implementation is coming) or the user asks.
+- End the skill with at most one plain-language sentence of movement — what got settled, what's still open and the default you'll use (e.g. "Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."). No ritual, no jargon; skip even this if nothing moved.
+- What counts as settled (for this skill): this skill mostly OPENS items (every Deviation and Surprise is an unknown discovered late); they settle on the user's DEV verdicts, in `/quiz`, or in `/diagnose`. Settled means the *user* said or confirmed it — writing it into a report does not count.
