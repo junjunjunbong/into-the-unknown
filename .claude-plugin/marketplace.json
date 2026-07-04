@@ -1,0 +1,16 @@
+{
+  "name": "finding-unknowns",
+  "owner": {
+    "name": "junwon"
+  },
+  "metadata": {
+    "description": "Skills for finding your unknowns before, during, and after implementation — from Thariq's \"A Field Guide to Fable\"."
+  },
+  "plugins": [
+    {
+      "name": "finding-unknowns",
+      "source": "./",
+      "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes."
+    }
+  ]
+}

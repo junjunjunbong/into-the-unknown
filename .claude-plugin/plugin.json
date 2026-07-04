@@ -1,0 +1,17 @@
+{
+  "name": "finding-unknowns",
+  "version": "0.1.0",
+  "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes. Based on Thariq's \"A Field Guide to Fable: Finding Your Unknowns\".",
+  "author": {
+    "name": "junwon"
+  },
+  "homepage": "https://x.com/trq212/article/2073100352921215386",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "planning",
+    "brainstorming",
+    "unknowns",
+    "agentic-coding"
+  ]
+}
