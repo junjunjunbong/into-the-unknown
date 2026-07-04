@@ -13,7 +13,9 @@
 
 **Why this shape:** {one paragraph}
 **Rejected:** {alternative} — {why}
+**Pick the alternative if:** {the concrete condition that would justify overriding}
 **Reversibility:** {cheap to change later / requires migration+backfill}
+> Override: `Override 1.1: {alternative}; accept {its cost}.` ← paste back verbatim to flip this
 
 ### 1.2 Interfaces & contracts
 
@@ -22,6 +24,8 @@
 ```
 
 **Rejected:** {alternative} — {why}
+**Pick the alternative if:** {…}
+> Override: `Override 1.2: {…}`
 
 ### 1.3 User-facing behavior
 
@@ -30,6 +34,8 @@
 - Sad path ({conflict, permission, offline…}): {what the user sees}
 
 **Rejected:** {alternative} — {why}
+**Pick the alternative if:** {…}
+> Override: `Override 1.3: {…}`
 
 ## Tier 2 — Defaults (flag if you disagree)
 

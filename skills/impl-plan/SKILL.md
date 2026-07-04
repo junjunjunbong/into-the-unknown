@@ -24,7 +24,9 @@ Write to `.unknowns/plan-<topic>.md` using [templates/plan-template.md](template
 - **Type interfaces & API contracts**: the signatures other code will depend on. Show the **actual proposed code** — real type definitions, real endpoint shapes — not prose describing them. A user can veto `expiresAt: Date | null`; they can't veto "appropriate expiry handling".
 - **Anything user-facing**: flows, copy, empty/error/loading states, what happens on the sad path.
 
-For each decision: the proposal, **the strongest alternative you rejected, and one line on why**. A user can only veto a decision they can see; a plan that presents choices as inevitabilities hides its unknowns.
+For each decision: the proposal, **the strongest alternative you rejected, and one line on why** — plus a **"Pick the alternative if…"** line stating the concrete condition under which the user should override you ("pick live joins if annotation edits must be visible in under a second"). A user can only veto a decision they can see, and they can only veto it *cheaply* if you've told them what would justify the veto. In the HTML version, alternatives sit behind a "View alternative" toggle so the happy path stays scannable.
+
+**Make overriding effortless**: under each Tier-1 decision (and at the bottom of the plan), provide a short **copyable override line** the user can paste back verbatim — e.g. `Override 1.2: use live joins instead of snapshots; accept the read-path cost.` The plan should compose the user's revision message for them; they should never have to draft feedback prose.
 
 ### Tier 2 — Behavioral choices with medium blast radius
 

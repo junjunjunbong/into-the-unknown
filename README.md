@@ -125,6 +125,7 @@ The closing rule is strict on purpose: an entry closes only on *your* articulati
 Commitments from the original article that the skills are built around:
 
 - **Field guide, not pipeline.** Techniques to reach for when a specific gap appears — skipping most of them on most tasks is correct.
+- **Artifacts compose your reply.** Reacting is easier than imagining — so every artifact carries reaction controls (copy buttons per finding, "this resonates" checkboxes, steal/skip chips, paste-back override lines) that build your next message for you. Modeled directly on the [example artifacts](https://thariqs.github.io/html-effectiveness/unknowns/) accompanying the article.
 - **Thought partner.** Every skill starts by calibrating to your starting point: where you are in your thinking, what you know about the problem and codebase.
 - **Iterative.** Unknowns surface before, during, and after implementation. Going backward (re-framing after a deviation pileup) is the process working.
 - **You're supposed to get better.** Reducing unknowns *is* the skill of agentic coding. Every verbalized reaction and diagnosed misfire compounds it — the plugin treats your improvement as a deliverable alongside the code.

@@ -25,10 +25,10 @@ For problem-shaped requests ("users churn after onboarding", "this page is slow"
    - at least one ambitious option that assumes the problem should be solved differently altogether.
 3. **Present each option** in a fixed shape so they're comparable:
    - one-paragraph sketch of the change
-   - cost: S / M / L, and what it touches (`files/areas`)
-   - what it depends on or risks
-   - **what new unknowns it introduces** (each option has its own unknowns — surface them now)
-4. **Ask which ones resonate.** Number the options and ask the user to react — pick, combine, or veto. Do not pick for them; the reaction IS the data. It's fine to mark one ⭐ recommended with a one-line reason.
+   - cost tag: **S** (ship this afternoon) / **M** (medium lift) / **L** (long-term project) / **XL** (quarter-long bet), plus what it touches (`files/areas`)
+   - a context snippet: what the codebase actually shows at that spot — this is what separates grounded discovery from generic advice
+   - what it depends on or risks, and **what new unknowns it introduces**
+4. **Ask which ones resonate.** For a big slate, render an HTML page where each option carries a "**this resonates**" checkbox and the page composes the reply from the checked ones ("check what resonates — your reply builds here") with a [Copy reply] button. In chat, number the options and ask the user to pick, combine, or veto. Do not pick for them; the reaction IS the data. It's fine to mark one ⭐ recommended with a one-line reason.
 
 ## Mode B — Prototype to react to
 
@@ -37,7 +37,7 @@ For look-and-feel or shape-of-the-thing requests (dashboards, toolbars, flows, v
 1. **Build disposable prototypes with fake data.** A single self-contained HTML file is almost always the right medium — no backend wiring, no state, no touching the real app. Start from [templates/directions-template.html](templates/directions-template.html). Save to `.unknowns/brainstorm-<topic>.html` and open/send it to the user.
 2. **When the user has no articulated taste yet, make 3–5 wildly different directions** on one page — not variations on one theme. Force divergence by varying real axes: information density, layout paradigm (cards vs table vs canvas), navigation model, tone (clinical vs playful), what's emphasized first. Name each direction memorably ("Dense cockpit", "One big number") so reactions are easy to voice.
 3. **Use realistic fake data.** "Revenue $48,230 · churn 3.2%" teaches; "Lorem ipsum · 123" doesn't. Edge cases in the fake data (long names, empty states, huge numbers) surface layout unknowns for free.
-4. **Ask for reactions, not a verdict**: what pulls you in, what repels you, which elements to steal across directions. Then iterate on the winner with stolen elements folded in — usually 1–2 rounds is enough.
+4. **Let the page collect the reactions.** Under each direction, list its notable details as tap-able **steal / skip chips** ("steal · the 4-stat metric strip", "skip · full dark chrome"). Selections aggregate into a composed reply at the bottom with a [Copy reply] button — the user taps what they feel and pastes one message back, instead of hand-writing feedback they may lack the vocabulary for. Reacting is easier than imagining. Then iterate on the winner with the stolen elements folded in — usually 1–2 rounds is enough.
 
 ## Capture the criteria (the actual point)
 

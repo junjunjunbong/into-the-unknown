@@ -38,7 +38,7 @@ Run the exploration concurrently where possible (parallel searches / an Explore 
 
 ## Step 3 — Report the blindspots
 
-Write the report to `.unknowns/blindspot-<topic>.md` using [templates/report-template.md](templates/report-template.md) as the skeleton, and give the user a condensed version in chat. For long reports, offer a self-contained HTML version instead. Ordering matters — teach fastest first:
+Write the report to `.unknowns/blindspot-<topic>.md` using [templates/report-template.md](templates/report-template.md) as the skeleton, and give the user a condensed version in chat. For long reports, prefer a self-contained HTML version with a [Copy] button per finding and a [Copy prompt] button on the improved prompt (section below) — the artifact should compose the user's next message for them. Ordering matters — teach fastest first:
 
 1. **The mental model** — the 3–5 concepts needed to reason about this area at all. One short paragraph each, with a codebase example where possible.
 2. **What good looks like** — how quality is judged here; the checklist an expert reviewer would apply.
@@ -46,7 +46,16 @@ Write the report to `.unknowns/blindspot-<topic>.md` using [templates/report-tem
 4. **Potholes** — mistakes people make here, non-obvious constraints (perf, security, compat, conventions), and any reverts/hacks you found with their story.
 5. **Questions they didn't know to ask** — the decisions hiding in this task, each phrased as a question + one line on why it matters. This section feeds `/interview` directly.
 
-Quality bar: every item must be *specific to this codebase or task*. "Auth is security-sensitive" is filler; "all three existing providers implement `refreshToken()` even though the interface marks it optional — yours probably needs to" is a blindspot.
+**Type every finding** with one of four labels — the label tells the user how to act on it:
+
+- `Landmine` — touch this wrong and something breaks ("sessions are double-written; the Redis store you'll find first is the wrong one")
+- `History` — a past attempt/revert/incident that explains why things are the way they are
+- `Missing concept` — a domain or codebase concept they need before their prompts can be precise
+- `Convention` — an unwritten house rule their work must follow
+
+Each finding renders as: headline (the threat in one sentence) → why it bites → what to do about it → **the constraint sentence**, a single copyable line ready to paste into a prompt.
+
+Quality bar: every item must be *specific to this codebase or task*. "Auth is security-sensitive" is filler; "all three existing providers implement `refreshToken()` even though the interface marks it optional — yours probably needs to" is a blindspot. The test for a good constraint sentence: it's a sentence the user *couldn't have written this morning*, bought with someone else's half-day of pain.
 
 ## Step 4 — Teach-back (this is what closes the unknowns)
 
@@ -59,7 +68,7 @@ Keep it light — this is a 2-minute pulse-check, not an exam. Its purpose is to
 
 ## Step 5 — Help them prompt better
 
-End with a **rewritten prompt**: take their original ask and produce the version they *would* have written knowing all of the above — constraints filled in, silent assumptions made explicit, remaining open questions marked `[OPEN]`.
+End with **"Your improved prompt"**: take their original ask and produce the version they *would* have written knowing all of the above — the numbered constraint sentences from each finding folded in, silent assumptions made explicit, a suggested implementation sequence, and remaining open questions marked `[OPEN]`. In the HTML version this block gets a [Copy prompt] button; in chat, present it as one clean copyable block.
 
 Show it as before/after so the user sees what the pass bought them. Then offer:
 - `/interview` to resolve the `[OPEN]` markers, or

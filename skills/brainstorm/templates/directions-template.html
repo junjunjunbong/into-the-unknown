@@ -29,7 +29,21 @@
   .react { margin-top:.6rem; font-size:.9rem; color:var(--muted); }
   .react b { color:var(--ink); }
 
-  footer { margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--line); color:var(--muted); font-size:.95rem; }
+  /* steal/skip chips — tapping them composes the reply */
+  .chips { margin-top:.6rem; display:flex; flex-wrap:wrap; gap:.45rem; }
+  .chip { font-size:.85rem; padding:.3rem .7rem; border:1px solid var(--line); border-radius:999px; background:#fff; cursor:pointer; user-select:none; color:var(--muted); }
+  .chip b { font-weight:600; color:var(--ink); }
+  .chip.on[data-verb="steal"] { border-color:#2e7d4f; background:#eaf4ee; color:#2e7d4f; }
+  .chip.on[data-verb="skip"]  { border-color:#b3362a; background:#faecea; color:#b3362a; }
+
+  /* reply composer */
+  .composer { margin-top:3rem; padding:1.25rem; border:1px solid var(--line); border-radius:12px; background:#fff; }
+  .composer h2 { font-size:1.05rem; margin-bottom:.5rem; }
+  .composer p { color:var(--muted); font-size:.9rem; margin-bottom:.7rem; }
+  .composer pre { font:.88rem/1.5 ui-monospace,monospace; background:#f6f4ef; padding:.9rem 1rem; border-radius:8px; white-space:pre-wrap; min-height:3.5rem; }
+  .composer button { margin-top:.7rem; font:inherit; font-weight:600; color:#fff; background:var(--ink); border:0; border-radius:8px; padding:.55rem 1.2rem; cursor:pointer; }
+
+  footer { margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--line); color:var(--muted); font-size:.95rem; }
   footer ul { margin:.5rem 0 0 1.2rem; }
 </style>
 </head>
@@ -42,7 +56,7 @@
   </header>
 
   <div class="howto">
-    <strong>How to react:</strong> for each direction say what <b>pulls you in</b>, what <b>repels you</b>, and which <b>elements to steal</b> even if the direction loses. "B's layout with D's colors" is a perfect answer.
+    <strong>How to react:</strong> tap <b>steal</b> on details you want to keep and <b>skip</b> on details that repel you — even from directions that lose overall. Your reply composes itself at the bottom; copy it and paste it back. "B's layout with D's colors" is a perfect answer, and the chips will write it for you.
   </div>
 
   <!-- ============ DIRECTION A ============ -->
@@ -57,6 +71,13 @@
            data incl. edge cases (long names, empty state, big numbers). -->
     </div>
     <p class="react"><b>Trade-off:</b> {one honest line about what this direction sacrifices}</p>
+    <!-- One chip per NOTABLE DETAIL of this direction (not the direction as a whole).
+         data-dir = direction letter, data-detail = the detail's name in plain words. -->
+    <div class="chips">
+      <span class="chip" data-verb="steal" data-dir="A" data-detail="{the 4-stat metric strip}"><b>steal</b> · {the 4-stat metric strip}</span>
+      <span class="chip" data-verb="skip"  data-dir="A" data-detail="{full dark chrome}"><b>skip</b> · {full dark chrome}</span>
+      <span class="chip" data-verb="steal" data-dir="A" data-detail="{detail}"><b>steal</b> · {detail}</span>
+    </div>
   </section>
 
   <!-- ============ DIRECTION B ============ -->
@@ -70,20 +91,52 @@
       <!-- Direction B — different layout paradigm, not a recolor of A. -->
     </div>
     <p class="react"><b>Trade-off:</b> {…}</p>
+    <div class="chips">
+      <span class="chip" data-verb="steal" data-dir="B" data-detail="{detail}"><b>steal</b> · {detail}</span>
+      <span class="chip" data-verb="skip"  data-dir="B" data-detail="{detail}"><b>skip</b> · {detail}</span>
+    </div>
   </section>
 
   <!-- Duplicate the section block for directions C, D, (E). Vary REAL axes:
        density · layout paradigm (cards/table/canvas) · navigation model ·
        tone (clinical/playful) · what's emphasized first. -->
 
+  <!-- ============ REPLY COMPOSER ============ -->
+  <div class="composer">
+    <h2>Your reply builds here</h2>
+    <p>Tap chips above — this message updates as you go. Copy it and paste it back to Claude.</p>
+    <pre id="reply">(nothing selected yet — tap some steal/skip chips)</pre>
+    <button onclick="copyReply()">Copy reply</button>
+  </div>
+
   <footer>
     Prototype only — fake data, nothing wired up. Lives in <code>.unknowns/</code>, safe to delete.
     <ul>
-      <li>Every reaction gets written down as a criterion in <code>.unknowns/decisions.md</code>.</li>
+      <li>Every steal/skip becomes a criterion in <code>.unknowns/decisions.md</code>.</li>
       <li>Next round: winning direction + stolen elements, then <code>/interview</code> or <code>/impl-plan</code>.</li>
     </ul>
   </footer>
 
 </div>
+<script>
+const chips = document.querySelectorAll('.chip');
+chips.forEach(c => c.addEventListener('click', () => { c.classList.toggle('on'); compose(); }));
+function compose(){
+  const on = [...chips].filter(c => c.classList.contains('on'));
+  const out = document.getElementById('reply');
+  if (!on.length) { out.textContent = '(nothing selected yet — tap some steal/skip chips)'; return; }
+  const steal = on.filter(c => c.dataset.verb === 'steal').map(c => `- from ${c.dataset.dir}: ${c.dataset.detail}`);
+  const skip  = on.filter(c => c.dataset.verb === 'skip').map(c => `- ${c.dataset.detail} (${c.dataset.dir})`);
+  let msg = 'My reactions to the design directions:\n';
+  if (steal.length) msg += '\nSteal these:\n' + steal.join('\n');
+  if (skip.length)  msg += '\n\nDrop these:\n' + skip.join('\n');
+  msg += '\n\nCompose the next round from the steals. Record each as a criterion.';
+  out.textContent = msg;
+}
+function copyReply(){
+  navigator.clipboard.writeText(document.getElementById('reply').textContent)
+    .then(() => { const b = document.querySelector('.composer button'); b.textContent = 'Copied ✓'; setTimeout(() => b.textContent = 'Copy reply', 1500); });
+}
+</script>
 </body>
 </html>

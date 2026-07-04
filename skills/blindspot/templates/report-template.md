@@ -26,9 +26,17 @@
 
 ## 4. Potholes
 
-<!-- Mistakes people make here; non-obvious constraints; reverts and hacks with their story. -->
+<!-- Mistakes people make here; non-obvious constraints; reverts and hacks with their story.
+     Type each finding: Landmine / History / Missing concept / Convention.
+     End each with ONE copyable constraint sentence, prompt-ready. -->
 
-- ⚠ **{pothole}** — {evidence: revert commit, TODO, incident, domain lore}. {how to avoid}
+### ⚠ `Landmine` — {headline: the threat in one sentence}
+{why it bites — evidence: revert commit, TODO, incident, domain lore}. {what to do about it}
+> **Constraint:** {one copyable sentence ready to paste into a prompt}
+
+### `Convention` — {headline}
+{why} · {what to do}
+> **Constraint:** {…}
 
 ## 5. Questions you didn't know to ask
 
@@ -39,7 +47,10 @@
 
 ---
 
-## Rewritten prompt
+## Your improved prompt
+
+<!-- The consolidated deliverable: numbered constraints matching the findings, a suggested
+     sequence, explicit deliverables. One copyable block — [Copy prompt] in the HTML version. -->
 
 **Before (original ask):**
 
@@ -47,4 +58,12 @@
 
 **After (knowing the above):**
 
-> {rewritten prompt with constraints filled in, assumptions explicit, `[OPEN]` markers on unresolved decisions}
+> {task restated}
+> Constraints:
+> 1. {constraint sentence from finding 1}
+> 2. {constraint sentence from finding 2}
+> Suggested sequence: {…}
+> Deliverables for validation: {…}
+> Open: {`[OPEN]` markers on unresolved decisions}
+
+<!-- Each numbered constraint is a sentence the user couldn't have written this morning. -->

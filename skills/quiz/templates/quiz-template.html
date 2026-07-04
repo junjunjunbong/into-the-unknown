@@ -99,28 +99,67 @@
     <div id="verdict"></div>
   </div>
 
+  <!-- Shown only on a perfect pass: the merge checklist. Fill with REAL steps for this change. -->
+  <div id="cleared" style="display:none; margin-top:1.5rem; background:#eaf4ee; border:1px solid #cde5d6; border-radius:12px; padding:1.1rem 1.3rem;">
+    <h2 style="border:0; padding:0; margin:0 0 .5rem; color:var(--ok);">✓ Cleared to merge</h2>
+    <ul style="margin-left:1.2rem;">
+      <li>{verification step, e.g. run migration on staging first}</li>
+      <li>{deploy note, e.g. flag `x` stays off until …}</li>
+      <li>{dependency to watch, e.g. blocked on TICKET-123}</li>
+    </ul>
+  </div>
+
+  <!-- Shown on a fail: send the reader back to study, not to retry-guess. -->
+  <div id="notyet" style="display:none; margin-top:1.5rem; background:#faecea; border:1px solid #eccfcb; border-radius:12px; padding:1.1rem 1.3rem;">
+    <h2 style="border:0; padding:0; margin:0 0 .5rem; color:var(--bad);">Not yet</h2>
+    <p>Re-read the sections behind your misses (linked next to each ✗ above), then ask Claude for <b>fresh variants</b> of the missed questions — re-answering the same wording proves recognition, not understanding.</p>
+    <button onclick="resetQuiz()" style="margin-top:.6rem; font:inherit; background:#fff; border:1px solid var(--line); border-radius:8px; padding:.45rem 1rem; cursor:pointer;">Reset and retry</button>
+  </div>
+
 </div>
 <script>
+// Each .q[data-answer] may also set data-section="#anchor" pointing at the report
+// section that teaches it — misses link the reader back there.
 function grade(){
   const qs = document.querySelectorAll('.q[data-answer]');
   let right = 0;
   qs.forEach(q => {
     const picked = q.querySelector('input:checked');
     q.classList.remove('correct','wrong');
+    q.querySelector('.goback')?.remove();
     if (picked && picked.value === q.dataset.answer) { q.classList.add('correct'); right++; }
-    else { q.classList.add('wrong'); }
+    else {
+      q.classList.add('wrong');
+      if (q.dataset.section) {
+        const a = document.createElement('a');
+        a.href = q.dataset.section; a.textContent = '→ re-read the section that covers this';
+        a.className = 'goback'; a.style.cssText = 'display:block;margin-top:.4rem;font-size:.9rem;';
+        q.querySelector('.explain').after(a);
+      }
+    }
   });
   // Free-text questions: reveal the model answer for self-check / Claude grading.
   document.querySelectorAll('.q[data-free]').forEach(q => { q.querySelector('.explain').style.display = 'block'; });
   const total = qs.length;
   const score = document.getElementById('score');
-  const verdict = document.getElementById('verdict');
   const pass = right === total;
   score.textContent = right + ' / ' + total + (document.querySelector('.q[data-free]') ? ' (+ free-text: paste answers to Claude)' : '');
   score.className = pass ? 'pass' : 'fail';
-  verdict.textContent = pass
-    ? 'Perfect on multiple choice. Get the free-text answers checked, then merge.'
-    : 'Not yet — review the explanations above, then ask Claude for fresh variants of the missed questions. Merge only after a perfect pass.';
+  document.getElementById('verdict').textContent = pass ? '' : '';
+  document.getElementById('cleared').style.display = pass ? 'block' : 'none';
+  document.getElementById('notyet').style.display  = pass ? 'none'  : 'block';
+}
+function resetQuiz(){
+  document.querySelectorAll('.q').forEach(q => {
+    q.classList.remove('correct','wrong');
+    q.querySelector('.goback')?.remove();
+    q.querySelectorAll('input:checked').forEach(i => i.checked = false);
+    if (q.dataset.free) q.querySelector('.explain').style.display = 'none';
+  });
+  document.getElementById('score').textContent = '';
+  document.getElementById('cleared').style.display = 'none';
+  document.getElementById('notyet').style.display = 'none';
+  document.querySelector('.grade').scrollIntoView({behavior:'smooth'});
 }
 </script>
 </body>

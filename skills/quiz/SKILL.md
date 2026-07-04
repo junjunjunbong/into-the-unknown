@@ -22,6 +22,8 @@ Determine the scope: the session's work, a branch diff (`git diff main...HEAD` +
 
 Write to `.unknowns/quiz-<topic>.html` from [templates/quiz-template.html](templates/quiz-template.html) — a self-contained interactive page (report on top, quiz with grading at the bottom). Use markdown + AskUserQuestion instead for small changes or on the user's preference.
 
+Wire the template's feedback loop properly: give each report section an `id` anchor and set each question's `data-section` to the section that teaches it, so a miss links the reader back to the exact study material. Fill the **"Cleared to merge"** block with this change's *real* pre-merge steps (staging migration, flag state, blocked-on dependencies) — passing the quiz should hand the user their next actions, not just a score. Frame the quiz in the page as: *not trivia — each question is a decision you'd have to make correctly during an incident or a review.*
+
 The report must give the user enough to pass honestly — it's study material, not a summary:
 
 1. **Context** — what problem this solves; how the affected area worked *before*.
