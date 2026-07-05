@@ -36,15 +36,17 @@ Cross-session index of open unknowns: `| U# | question | opened by | status |`. 
 
 ## The protocol — four phases, hard gates
 
-You are always in exactly one phase. Announce transitions in one short line ("Scouting done — here's the digest"). Interruptions never change the phase by themselves (see Interruption rules).
+You are always in exactly one phase. Announce transitions in one short line ("Scouting done — here's what I found"). Interruptions never change the phase by themselves (see Interruption rules).
 
 | Phase | You MAY | You MAY NOT | Exit gate |
 |---|---|---|---|
 | **P0 GATE** | check task exists | scout, write, ask calibration batteries | a concrete task or goal is named |
-| **P1 SCOUT** | run tools: read repo/docs/logs/history | **ask the user ANY question** | Scout Digest written (evidence-cited) |
-| **P2 MAP** | present hypothesis map + invite corrections | write files; ask probe questions | user reacted (or said "map is right") |
-| **P3 PROBE** | ask **one decision per turn**, evidence-attached | batch questions; ask anything scoutable | plan-changing unknowns settled OR budget (3) spent |
+| **P1 SCOUT** | run tools: read repo/docs/logs/history | **ask the user ANY question**; show partial dumps | evidence collected (internal digest) |
+| **P2 REPORT** | present ONE compact scout report (evidence → ranked blind-spot hypotheses → ≤1 question) | show the raw 2×2 table; dump digest and map as two separate walls; write files | user reacted (or said "looks right") |
+| **P3 PROBE** | ask **one decision per turn**, evidence-attached | batch questions; ask anything scoutable | plan-changing unknowns settled OR budget (3, incl. the report's question) spent |
 | **P4 HANDOFF** | write map.md, seed ledger, route | keep asking | — |
+
+P1→P2 happens **in the same turn** — that's intended; scouting silently and then reporting is one motion. The hard stop is AFTER the report: nothing else happens until the user reacts.
 
 ### P0 — Gate
 
@@ -52,7 +54,7 @@ If neither the arguments nor the recent conversation names a concrete task or go
 
 **A vague goal + a concrete territory PASSES the gate.** "점수올리기 / raise the score" in a repo with a scoreboard is a valid task: the *territory* disambiguates it, not the user. Do not ask "what do you mean by raise the score?" — go find out what the score is, where it's computed, and what has moved it. Reply-with-questions is only correct when there is genuinely nothing to scout.
 
-### P1 — SCOUT (질문 금지 — zero questions before the digest)
+### P1 — SCOUT (질문 금지 — zero questions before the report)
 
 **Hard rule: the first visible output of discovery is evidence, never a question.** If you catch yourself drafting a question during SCOUT, that question is a scouting target: write it down and go find the answer with tools. Only questions that survive scouting reach P3.
 
@@ -69,29 +71,32 @@ Territory variants — use the matching lens list as the checklist:
 - **Coding**: → unclear entry point · hidden convention · missing type/interface contract · migration risk · backward compatibility · test coverage gap · API boundary confusion · state management ambiguity · concurrency/async edges · error handling expectations · security assumptions · performance constraints.
 - **Product**: analytics, user feedback, tickets, funnels → unclear user · unclear job-to-be-done · fake urgency · missing distribution · willingness-to-pay · activation moment · retention risk · switching cost · category confusion · substitutes · success metric ambiguity.
 
-**Exit artifact — the Scout Digest**, in chat, ≤10 lines: each line = one finding + citation (`file:line`, commit, log line). End with **3–5 candidate blind spots ranked by expected impact on the goal**. No finding without a citation.
+**Exit: the digest stays internal** — it's your working notes (every finding with a citation: `file:line`, commit, log line), not a deliverable. It feeds the report.
 
-### P2 — MAP (hypotheses, in chat, no files)
+### P2 — REPORT (one compact deliverable, then stop)
 
-Build the map FROM the digest, not from imagination:
+Everything the user sees from discovery's opening move is this single report — evidence first, interpretation second, at most one ask. No files yet.
 
 ```md
-## Current task
-[one-sentence interpretation — offered for correction]
+## Scout report: {task, one-sentence interpretation — correct me}
 
-## Unknowns map (my hypotheses — correct me)
-| Category | What may belong here | Why it matters |
-|---|---|---|
-| Known knowns | [their stated goal/requirements] | … |
-| Known unknowns | [open questions, each decidable] | … |
-| Unknown knowns | [phrased as questions: "is X already decided in your head?" (guess)] | … |
-| Unknown unknowns | [ONLY items with a digest citation] | … |
+**What I found**            (≤6 lines, every line cited)
+- {finding} — `{file:line / commit / log}`
 
-## Highest-risk blind spots
-1–3 — the ones that could sink the goal, each with its citation.
+**Where the blind spots probably are**   (3–5, ranked by impact on the goal)
+1. ⚠ {blind spot} — (evidence: `…`)
+2. {blind spot} — (guess)
+
+**Only you can answer**     (0–2 items, interrogative, tagged (guess))
+- {is X already decided in your head?}
+
+**First question** — [ONE, evidence-attached — only if one passes the P3 tests;
+otherwise: "No question needed — recommending {route} because {blind spot}."]
+
+Corrections: `Wrong: …` / `Promote: …` / `Missing: …` — or "looks right".
 ```
 
-Rules: 5–8 map items total; user-items interrogative + `(guess)`; territory-items cite evidence; an evidence-free "unknown unknown" is not allowed — it's either a guess (say so) or a new scouting target (go scout). Invite paste-back corrections (`Wrong: … / Promote: … / Missing: …`, or "map is right").
+Rules: 5–8 substantive items total across the report; territory claims cite evidence, user claims stay interrogative + `(guess)`; an evidence-free "blind spot" is either a tagged guess or a new scouting target — go scout instead of listing it. **The 2×2 is your internal lens, not the output**: classify silently to check you covered all four kinds of unknowns, and write the full quadrant map only to `.unknowns/map.md` at handoff. Then stop and wait for the reaction.
 
 ### P3 — PROBE (one decision per turn, evidence attached, budget 3)
 
@@ -131,8 +136,8 @@ When resuming after any interruption, say where you are: "(back to scouting — 
 User in the OGC2026 repo says: **"점수올리기"** (raise the score).
 
 - ❌ Old behavior: immediately ask "train40 60s로 갈까요, submission-safe로 갈까요?" — a cold A/B the user can't ground, no evidence, questionnaire feel.
-- ✅ Protocol: P0 passes (concrete territory). P1: read STATE/SCOREBOARD/EXPERIMENT_LOG, `git log -20`, find the scorer and current-vs-best gap, list what's been tried and what regressed → Scout Digest with citations. P2: map with 3 evidence-cited blind spots ("submission pipeline caps runtime at 60s — SCOREBOARD L12 shows your best local run exceeds it; is that why train40 was abandoned? (guess)"). P3: ONE question, evidence attached. P4: route (likely `/impl-plan` on the chosen direction, or `/brainstorm` across the 3 candidates).
+- ✅ Protocol: P0 passes (concrete territory). P1, silently: read STATE/SCOREBOARD/EXPERIMENT_LOG, `git log -20`, find the scorer and current-vs-best gap, list what's been tried and what regressed. P2, one report: findings with citations → 3 ranked blind spots ("submission pipeline caps runtime at 60s — SCOREBOARD L12 shows your best local run exceeds it; is that why train40 was abandoned? (guess)") → ONE evidence-attached question. Stop. P3 with the remaining budget. P4: route (likely `/impl-plan` on the chosen direction, or `/brainstorm` across the 3 candidates).
 
 ## Anti-patterns
 
-Do not: ask anything before the Scout Digest exists · ask what the repo/logs can answer · batch questions or stack decisions in one turn · produce a plan before surfacing unknowns · hide assumptions · fill gaps with generic best practices · treat the user's first framing (or your restatement) as necessarily correct · ask preference questions before plan-changing ones · present guesses about the user as facts · write files before the user has corrected the map · abandon the protocol because the user pushed back on it.
+Do not: ask anything before the scout report exists · ask what the repo/logs can answer · batch questions or stack decisions in one turn · produce a plan before surfacing unknowns · hide assumptions · fill gaps with generic best practices · treat the user's first framing (or your restatement) as necessarily correct · ask preference questions before plan-changing ones · present guesses about the user as facts · write files before the user has corrected the map · abandon the protocol because the user pushed back on it.
