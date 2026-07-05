@@ -1,0 +1,47 @@
+{
+  "id": "no-visible-question-before-scout-report",
+  "failureClass": "no_visible_question_before_scout_report",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "I'm entering a new part of the codebase and want to know what I'm missing.",
+  "expectedBadBehavior": "Ask a visible clarification before showing any scout evidence.",
+  "expectedGoodBehavior": "Make the first visible assistant turn an evidence-backed scout report.",
+  "references": [
+    "docs/unknown-finding-v2.md:26",
+    "skills/discovery/SKILL.md:44-49",
+    "skills/discovery/SKILL.md:57-60"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "I'm entering a new part of the codebase and want to know what I'm missing."
+    },
+    {
+      "role": "assistant",
+      "phase": "P1_SCOUT",
+      "visible": false,
+      "kind": "tool_scout",
+      "text": "Read README, TODO, recent commits, and tests without asking the user first.",
+      "evidenceRefs": ["README.md:3", "TODO.md:9", "git:7dba3d2"]
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "text": "Scout report: this area is a transcript-eval scaffold, so the missing pieces are behavioral examples and a local checker. What I found: the plan names transcript evals first, the skill forbids questions in scout, and the repo has no eval fixture directory yet.",
+      "evidenceRefs": ["docs/unknown-finding-v2.md:19", "skills/discovery/SKILL.md:59", "git-status:untracked"],
+      "blindspots": [
+        {
+          "text": "Fixture schema may drift from the skill's phase names.",
+          "evidenceRefs": ["skills/discovery/SKILL.md:37-49"]
+        },
+        {
+          "text": "Checker success could be misleading if it only sees filenames.",
+          "evidenceRefs": ["docs/unknown-finding-v2.md:35-37"]
+        }
+      ],
+      "questions": []
+    }
+  ]
+}

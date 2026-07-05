@@ -15,5 +15,12 @@
     "unknowns",
     "agentic-coding"
   ],
+  "interface": {
+    "displayName": "Into the Unknown",
+    "shortDescription": "Discover unknowns before, during, and after implementation.",
+    "longDescription": "A shared Claude Code and Codex skill set for blindspot passes, brainstorms, interviews, references, implementation plans and notes, pitches, and quizzes.",
+    "developerName": "junwon",
+    "category": "Productivity"
+  },
   "skills": "./skills/"
 }

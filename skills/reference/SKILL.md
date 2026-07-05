@@ -66,5 +66,5 @@ The user replies by pasting the lines they choose (or "keep all"). A row's ledge
 
 - **Start — always**: if the file exists, read it silently. Don't re-ask what's already settled; do target what's open.
 - **End — always**: if this pass opened or settled ANY unknown, write the delta to the file before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. If nothing opened or settled, leave the file alone.
-- **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
+- **Chat side — quiet**: keep ledger details out of chat, keep file upkeep agent-owned, and never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
 - **What counts as settled**: an entry settles when the user pastes back (or affirms) the verdict line for its semantics-map row. Settled means the *user* said or confirmed it — writing it into a report does not count.

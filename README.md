@@ -1,14 +1,16 @@
 # into-the-unknown
 
-**A Claude Code plugin that helps you discover what you don't know — before it gets expensive to fix.**
+**A Claude Code and Codex plugin that helps you discover what you don't know — before it gets expensive to fix.**
 
-Ten skills packaging the techniques from [*A Field Guide to Fable: Finding Your Unknowns*](https://x.com/trq212/article/2073100352921215386) by [Thariq (@trq212)](https://x.com/trq212) of the Claude Code team.
+Ten shared skills packaging the techniques from [*A Field Guide to Fable: Finding Your Unknowns*](https://x.com/trq212/article/2073100352921215386) by [Thariq (@trq212)](https://x.com/trq212) of the Claude Code team.
 
 > The map is not the territory. The map is your prompts and context; the territory is the codebase and its real constraints. The gap between them is your **unknowns** — and with today's models, the quality of the work is bottlenecked by your ability to clarify them.
 
 🇰🇷 [한국어 README](README.ko.md)
 
 ## Install
+
+Both clients expose the same skill set; plugin-management and local-checkout syntax differ by client.
 
 ### Claude Code
 
@@ -38,6 +40,8 @@ codex plugin add into-the-unknown@into-the-unknown
 ```
 
 ## Quick start
+
+Skill names are shown as slash commands because they are the shared product surface. Use the client-specific invocation style your environment provides.
 
 Two commands cover 80% of usage:
 
@@ -101,7 +105,8 @@ Skills share an artifact directory, `.unknowns/` at your repo root (gitignored b
 
 ```
 .unknowns/
-  ledger.md               ← ALL skills     numbered U# entries, open → closed
+  ledger.md               ← ALL skills     quiet human index, open → closed
+  state.jsonl             ← ALL skills     machine recovery events
   map.md                  ← /discovery      the knowns/unknowns 2×2
   blindspot-<topic>.md    ← /blindspot     what you didn't know to ask
   brainstorm-<topic>.html ← /brainstorm    throwaway prototypes to react to
@@ -112,13 +117,15 @@ Skills share an artifact directory, `.unknowns/` at your repo root (gitignored b
 implementation-notes.md   ← /impl-notes    deviations log (repo root, per the article)
 ```
 
-Skills ship with templates (design-directions page, interactive quiz with grading, implementation-notes format, decisions-first plan, pitch doc) so Claude fills in a proven format instead of improvising one each time.
+Skills ship with templates (design-directions page, interactive quiz with grading, implementation-notes format, decisions-first plan, pitch doc) so the assistant fills in a proven format instead of improvising one each time.
 
 ### The ledger: quiet bookkeeping, strict settling
 
-`.unknowns/ledger.md` keeps open unknowns from getting lost across sessions — but it's Claude's bookkeeping, not your homework. The split: **file updates are mandatory** (every skill reads it silently at start and writes the delta at end, so continuity never depends on anyone's memory), **chat is quiet** (you never maintain it or get it recited at you). What you see is at most one plain sentence when something moves: *"Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."*
+`.unknowns/ledger.md` keeps open unknowns from getting lost across sessions — but it's agent-owned bookkeeping, not your homework. The split: **file updates are mandatory** (every skill reads it silently at start and writes the delta at end, so continuity never depends on anyone's memory), **chat is quiet** (you never maintain it or get it recited at you). What you see is at most one plain sentence when something moves: *"Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."*
 
-The settling rule is strict on purpose: an unknown counts as settled only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). Claude writing the answer into a document does not count; that only moves the unknown from your head into a file.
+The field-level contract lives in [docs/unknowns-state-contract.md](docs/unknowns-state-contract.md): `ledger.md` stays the quiet index, while `state.jsonl` records `phase`, `resume_cursor`, `owner_action`, `why_stopped`, and `closure_evidence` for resumable machine state.
+
+The settling rule is strict on purpose: an unknown counts as settled only on *your* articulation — a decision you made, a criterion you voiced, a teach-back you passed (`/blindspot` quizzes you on its own report before moving on). The assistant writing the answer into a document does not count; that only moves the unknown from your head into a file.
 
 Relatedly, `/discovery` opens with **hypotheses, not a diagnosis**: a small draft map (5–8 items, guesses tagged as guesses, questions about you phrased as questions) that you correct before anything is written or routed. Every "no, actually…" you reply with is the mechanism working.
 

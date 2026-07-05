@@ -86,10 +86,10 @@
     <div class="explain">{why, with file:line pointer}</div>
   </div>
 
-  <!-- Free text: graded by Claude in chat, not by the page. -->
+  <!-- Free text: graded in chat, not by the page. -->
   <div class="q" data-free="true">
     <h3>Q6. {blast-radius or rollback question}</h3>
-    <textarea placeholder="Your answer — paste it to Claude for grading against the code."></textarea>
+    <textarea placeholder="Your answer — paste it to your assistant for grading against the code."></textarea>
     <div class="explain">{model answer, with file:line}</div>
   </div>
 
@@ -112,7 +112,7 @@
   <!-- Shown on a fail: send the reader back to study, not to retry-guess. -->
   <div id="notyet" style="display:none; margin-top:1.5rem; background:#faecea; border:1px solid #eccfcb; border-radius:12px; padding:1.1rem 1.3rem;">
     <h2 style="border:0; padding:0; margin:0 0 .5rem; color:var(--bad);">Not yet</h2>
-    <p>Re-read the sections behind your misses (linked next to each ✗ above), then ask Claude for <b>fresh variants</b> of the missed questions — re-answering the same wording proves recognition, not understanding.</p>
+    <p>Re-read the sections behind your misses (linked next to each ✗ above), then ask your assistant for <b>fresh variants</b> of the missed questions — re-answering the same wording proves recognition, not understanding.</p>
     <button onclick="resetQuiz()" style="margin-top:.6rem; font:inherit; background:#fff; border:1px solid var(--line); border-radius:8px; padding:.45rem 1rem; cursor:pointer;">Reset and retry</button>
   </div>
 
@@ -138,12 +138,12 @@ function grade(){
       }
     }
   });
-  // Free-text questions: reveal the model answer for self-check / Claude grading.
+  // Free-text questions: reveal the model answer for self-check / assistant grading.
   document.querySelectorAll('.q[data-free]').forEach(q => { q.querySelector('.explain').style.display = 'block'; });
   const total = qs.length;
   const score = document.getElementById('score');
   const pass = right === total;
-  score.textContent = right + ' / ' + total + (document.querySelector('.q[data-free]') ? ' (+ free-text: paste answers to Claude)' : '');
+  score.textContent = right + ' / ' + total + (document.querySelector('.q[data-free]') ? ' (+ free-text: paste answers to assistant)' : '');
   score.className = pass ? 'pass' : 'fail';
   document.getElementById('verdict').textContent = pass ? '' : '';
   document.getElementById('cleared').style.display = pass ? 'block' : 'none';

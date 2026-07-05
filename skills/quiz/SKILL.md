@@ -8,7 +8,7 @@ argument-hint: [branch/range/scope of the change]
 
 > **No-input gate:** if invoked with no arguments and the conversation doesn't already identify the change to report and quiz on (session, branch, or range), your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
 
-After a long session, Claude may have accomplished more than the user realizes. Reading diffs gives only a light understanding, because much of the behavior depends on existing code paths the diff doesn't show. The quiz closes that gap: **the user merges only after a perfect pass.**
+After a long session, the assistant may have accomplished more than the user realizes. Reading diffs gives only a light understanding, because much of the behavior depends on existing code paths the diff doesn't show. The quiz closes that gap: **the user merges only after a perfect pass.**
 
 ## Step 1 — Establish what changed
 
@@ -60,5 +60,5 @@ Format: multiple choice (4 options) with **plausible distractors** — each wron
 
 - **Start — always**: if the file exists, read it silently. Don't re-ask what's already settled; do target what's open.
 - **End — always**: if this pass opened or settled ANY unknown, write the delta to the file before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. If nothing opened or settled, leave the file alone.
-- **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
+- **Chat side — quiet**: keep ledger details out of chat, keep file upkeep agent-owned, and never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
 - **What counts as settled**: a perfect pass settles 'do I understand what was built'; each failed question reopens its topic until a fresh variant is answered correctly. Settled means the *user* said or confirmed it — writing it into a report does not count.

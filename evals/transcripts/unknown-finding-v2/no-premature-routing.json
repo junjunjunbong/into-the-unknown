@@ -1,0 +1,53 @@
+{
+  "id": "no-premature-routing",
+  "failureClass": "no_premature_impl_plan_or_interview",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "I want to improve this repo's score, but I need a plan now.",
+  "expectedBadBehavior": "Route to a planning or interview workflow before the P4 handoff gate.",
+  "expectedGoodBehavior": "Scout first, report unknowns, and delay routing until the handoff gate is reached.",
+  "references": [
+    "docs/unknown-finding-v2.md:30",
+    "skills/discovery/SKILL.md:115-121",
+    "skills/discovery/SKILL.md:141-143"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "I want to improve this repo's score, but I need a plan now."
+    },
+    {
+      "role": "assistant",
+      "phase": "P1_SCOUT",
+      "visible": false,
+      "kind": "tool_scout",
+      "text": "Read the score trail and attempt history before deciding whether routing is justified.",
+      "evidenceRefs": ["SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34", "skills/discovery/SKILL.md:115"]
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "routes": [],
+      "text": "Scout report: a plan would be premature until the score target, safe export path, and cap risk are visible together. What I found: the score gap is known, the high-capacity attempt has a cap warning, and the safe export path is the last verified route.",
+      "evidenceRefs": ["SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34", "SUBMISSION.md:18"],
+      "blindspots": [
+        {
+          "text": "The user may value local-score exploration over submission-safe gains.",
+          "guess": true
+        },
+        {
+          "text": "The cap warning can change the whole plan.",
+          "evidenceRefs": ["EXPERIMENT_LOG.md:34"]
+        }
+      ],
+      "questions": [
+        {
+          "text": "EXPERIMENT_LOG.md:34 shows the highest local candidate has a cap warning; should the next step exclude over-cap options?",
+          "evidenceRefs": ["EXPERIMENT_LOG.md:34"]
+        }
+      ]
+    }
+  ]
+}

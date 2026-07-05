@@ -49,9 +49,9 @@ Refactors, wiring, file-by-file changes, in execution order with rough sizes. Te
 
 ## Unknowns ledger (silent, but always updated)
 
-`.unknowns/ledger.md` is the cross-session index of open unknowns. **The file work is mandatory; talking about it is not.**
+`.unknowns/ledger.md` is the quiet cross-session index of open unknowns; `.unknowns/state.jsonl` is the machine recovery trail. Use [../../docs/unknowns-state-contract.md](../../docs/unknowns-state-contract.md) for fields, `resume_cursor`, `closure_evidence`, and close gates. **The file work is mandatory; talking about it is not.**
 
 - **Start — always**: if the file exists, read it silently. Don't re-ask what's already settled; do target what's open.
 - **End — always**: if this pass opened or settled ANY unknown, write the delta to the file before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. If nothing opened or settled, leave the file alone.
-- **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
+- **Chat side — quiet**: keep ledger details out of chat, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
 - **What counts as settled**: this skill settles nothing — it consolidates; list every still-open item under 'Open unknowns' with its planned default. Settled means the *user* said or confirmed it — writing it into a report does not count.

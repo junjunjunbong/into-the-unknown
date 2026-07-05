@@ -1,0 +1,55 @@
+{
+  "id": "meta-feedback-resume",
+  "failureClass": "meta_feedback_resume",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "raise the score",
+  "expectedBadBehavior": "Apologize, abandon the protocol, or restart after feedback about the questioning.",
+  "expectedGoodBehavior": "Name the current phase in no more than two plain sentences, then resume exactly there.",
+  "references": [
+    "docs/unknown-finding-v2.md:31-32",
+    "skills/discovery/SKILL.md:123-132"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "raise the score"
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "text": "Scout report: the score path is known, but the submission-safe tradeoff needs one owner decision. What I found: the verified best safe score trails the best local score, and the local candidate has a cap warning.",
+      "evidenceRefs": ["SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34"],
+      "blindspots": [
+        {
+          "text": "The cap warning could make the local best unusable.",
+          "evidenceRefs": ["EXPERIMENT_LOG.md:34"]
+        }
+      ],
+      "questions": [
+        {
+          "text": "EXPERIMENT_LOG.md:34 flags a cap warning; should I keep only submission-safe candidates?",
+          "evidenceRefs": ["EXPERIMENT_LOG.md:34"]
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "kind": "meta_feedback",
+      "text": "This is confusing; why are you asking?"
+    },
+    {
+      "role": "assistant",
+      "phase": "P3_PROBE",
+      "visible": true,
+      "kind": "meta_feedback_resume",
+      "resumesPhase": "P3_PROBE",
+      "artifacts": [],
+      "text": "We are in probe because the scorer history leaves one plan-changing choice. I will keep it to that one evidence-backed decision and continue from there.",
+      "evidenceRefs": ["skills/discovery/SKILL.md:127-128"],
+      "questions": []
+    }
+  ]
+}

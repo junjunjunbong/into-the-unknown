@@ -10,7 +10,7 @@ argument-hint: [problem or thing to prototype]
 
 Use this when the user is working in an area with lots of **unknown knowns** — criteria they can only define when they see them. Finding these out during implementation is expensive: small changes in a feature or spec cause drastically different implementations, and reverting is hard. Finding them out on a throwaway prototype is cheap.
 
-This is also the right way to start almost any coding session: an exploration/brainstorm phase that sets the project's scope with intent — neither too narrow nor too wide. Claude often finds high-value approaches the user would have missed, and the user catches when Claude misses the forest for the trees.
+This is also the right way to start almost any coding session: an exploration/brainstorm phase that sets the project's scope with intent — neither too narrow nor too wide. The assistant often finds high-value approaches the user would have missed, and the user catches when the assistant misses the forest for the trees.
 
 Pick the mode by the shape of the request; use both when a problem needs approaches AND one approach needs a visual.
 
@@ -55,5 +55,5 @@ Every reaction converts an unknown known into a known known. **Write each one do
 
 - **Start — always**: if the file exists, read it silently. Don't re-ask what's already settled; do target what's open.
 - **End — always**: if this pass opened or settled ANY unknown, write the delta to the file before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. If nothing opened or settled, leave the file alone.
-- **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
+- **Chat side — quiet**: keep ledger details out of chat, keep file upkeep agent-owned, and never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
 - **What counts as settled**: an entry settles only when the user's reaction is voiced and captured as an explicit criterion in `decisions.md`. Settled means the *user* said or confirmed it — writing it into a report does not count.

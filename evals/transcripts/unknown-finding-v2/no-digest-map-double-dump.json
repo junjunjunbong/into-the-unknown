@@ -1,0 +1,44 @@
+{
+  "id": "no-digest-map-double-dump",
+  "failureClass": "no_digest_map_double_dump",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "Tell me what you found so far.",
+  "expectedBadBehavior": "Emit both the internal digest and the full user-facing map as separate dumps.",
+  "expectedGoodBehavior": "Emit one compact scout report and keep the digest internal until handoff.",
+  "references": [
+    "docs/unknown-finding-v2.md:33",
+    "skills/discovery/SKILL.md:74",
+    "skills/discovery/SKILL.md:76-99"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "Tell me what you found so far."
+    },
+    {
+      "role": "assistant",
+      "phase": "P1_SCOUT",
+      "visible": false,
+      "kind": "internal_digest",
+      "artifacts": ["internal_digest"],
+      "text": "Internal digest with every finding and citation remains hidden.",
+      "evidenceRefs": ["skills/discovery/SKILL.md:74"]
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "text": "Scout report: the useful surface is one compact evidence-backed report, not a digest plus map dump. What I found: P1 keeps the digest internal, P2 shows a compact report, and the full map waits for handoff.",
+      "evidenceRefs": ["skills/discovery/SKILL.md:74", "skills/discovery/SKILL.md:76", "skills/discovery/SKILL.md:113"],
+      "blindspots": [
+        {
+          "text": "A visible digest would leak working notes rather than helping the user decide.",
+          "evidenceRefs": ["skills/discovery/SKILL.md:74"]
+        }
+      ],
+      "questions": []
+    }
+  ]
+}

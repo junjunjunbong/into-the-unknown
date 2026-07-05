@@ -32,7 +32,7 @@ Artifacts accumulate in `.unknowns/` at the repo root (`ledger.md`, `map.md`, `b
 
 ### The ledger (`.unknowns/ledger.md`) — silent, but always updated
 
-Cross-session index of open unknowns: `| U# | question | opened by | status |`. **File work is mandatory, talking about it is not.** Read silently at start; write the delta whenever anything opened or settled (create on first real entry); in chat at most one plain sentence of movement; never recite it or assign it as homework. Settled = the user's articulation only.
+Cross-session index of open unknowns: `| U# | phase | question | evidence | owner_action | status | source_refs | why_stopped | opened_by | updated_at |`. `.unknowns/state.jsonl` is the machine recovery trail. Use [../../docs/unknowns-state-contract.md](../../docs/unknowns-state-contract.md) for fields, `resume_cursor`, `closure_evidence`, and close gates. **File work is mandatory, talking about it is not.** Read silently at start; write the delta whenever anything opened or settled (create on first real entry); in chat at most one plain sentence of movement; keep ledger details out of chat and never assign bookkeeping as homework. Settled = the user's articulation only.
 
 ## The protocol — four phases, hard gates
 

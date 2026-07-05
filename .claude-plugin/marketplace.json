@@ -1,5 +1,7 @@
 {
   "name": "into-the-unknown",
+  "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes.",
+  "version": "0.3.2",
   "owner": {
     "name": "junwon"
   },
@@ -10,7 +12,21 @@
     {
       "name": "into-the-unknown",
       "source": "./",
-      "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes."
+      "description": "Discover your unknowns before, during, and after implementation — blindspot passes, brainstorms, interviews, references, implementation plans/notes, pitches, and quizzes.",
+      "version": "0.3.2",
+      "author": {
+        "name": "junwon"
+      },
+      "homepage": "https://x.com/trq212/article/2073100352921215386",
+      "repository": "https://github.com/junjunjunbong/into-the-unknown",
+      "license": "MIT",
+      "keywords": [
+        "workflow",
+        "planning",
+        "brainstorming",
+        "unknowns",
+        "agentic-coding"
+      ]
     }
   ]
 }

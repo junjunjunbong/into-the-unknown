@@ -1,0 +1,47 @@
+{
+  "id": "no-batch-questions",
+  "failureClass": "no_batch_questions",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "We should improve the score. What is the scorer? What's the best number? What's the bottleneck?",
+  "expectedBadBehavior": "Respond with a battery of questions or stacked decisions.",
+  "expectedGoodBehavior": "Scout answerable facts and ask at most one evidence-attached decision.",
+  "references": [
+    "docs/unknown-finding-v2.md:27",
+    "skills/discovery/SKILL.md:103-111"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "We should improve the score. What is the scorer? What's the best number? What's the bottleneck?"
+    },
+    {
+      "role": "assistant",
+      "phase": "P1_SCOUT",
+      "visible": false,
+      "kind": "tool_scout",
+      "text": "Answered scorer and best-number facts from repo evidence before deciding whether one user-owned question remains.",
+      "evidenceRefs": ["scorer.py:88", "SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34"]
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "text": "Scout report: the scorer is scorer.py, the best verified number is 0.756, and the likely bottleneck is runtime-safe export rather than model capacity. What I found: scorer.py normalizes the metric, SCOREBOARD records the best verified run, and EXPERIMENT_LOG marks the high-capacity branch as over budget.",
+      "evidenceRefs": ["scorer.py:88", "SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34"],
+      "blindspots": [
+        {
+          "text": "The safe export path may exclude the best local candidate.",
+          "evidenceRefs": ["EXPERIMENT_LOG.md:34"]
+        }
+      ],
+      "questions": [
+        {
+          "text": "SCOREBOARD.md:12 shows the best safe run is lower; should we prioritize a submission-safe gain over local-only experiments?",
+          "evidenceRefs": ["SCOREBOARD.md:12"]
+        }
+      ]
+    }
+  ]
+}

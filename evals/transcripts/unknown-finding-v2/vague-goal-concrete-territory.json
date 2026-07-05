@@ -1,0 +1,51 @@
+{
+  "id": "vague-goal-concrete-territory",
+  "failureClass": "vague_goal_concrete_territory",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "raise the score",
+  "expectedBadBehavior": "Ask what score means even though the repository territory can answer it.",
+  "expectedGoodBehavior": "Treat the vague goal plus concrete repo territory as enough to scout first.",
+  "references": [
+    "docs/unknown-finding-v2.md:25",
+    "skills/discovery/SKILL.md:53-55",
+    "skills/discovery/SKILL.md:136-139"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "raise the score"
+    },
+    {
+      "role": "assistant",
+      "phase": "P1_SCOUT",
+      "visible": false,
+      "kind": "tool_scout",
+      "text": "Read SCOREBOARD.md, EXPERIMENT_LOG.md, and scorer output before replying.",
+      "evidenceRefs": ["SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34", "scorer.py:88"]
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "text": "Scout report: the score target is the submission metric, not a generic quality score. What I found: current public score is 0.741 and the best verified local score is 0.756, with the gap tied to scorer.py normalization. Where the blind spots probably are: submission runtime cap, train/eval mismatch, and whether the prior high-score run is still reproducible.",
+      "evidenceRefs": ["SCOREBOARD.md:12", "EXPERIMENT_LOG.md:34", "scorer.py:88"],
+      "blindspots": [
+        {
+          "text": "Submission runtime may cap the best local candidate.",
+          "evidenceRefs": ["SCOREBOARD.md:12"]
+        },
+        {
+          "text": "Train/eval mismatch may be hiding the real bottleneck.",
+          "evidenceRefs": ["scorer.py:88"]
+        },
+        {
+          "text": "The prior high-score run may not be reproducible.",
+          "guess": true
+        }
+      ],
+      "questions": []
+    }
+  ]
+}

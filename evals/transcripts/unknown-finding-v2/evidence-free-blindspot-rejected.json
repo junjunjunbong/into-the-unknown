@@ -1,0 +1,50 @@
+{
+  "id": "evidence-free-blindspot-rejected",
+  "failureClass": "evidence_free_blindspot_rejected",
+  "clientLabels": ["Claude Code", "Codex"],
+  "prompt": "We need to improve this research result, but don't bother looking anything up yet.",
+  "expectedBadBehavior": "Invent blind spots as facts without evidence or guess tags.",
+  "expectedGoodBehavior": "Either cite evidence, tag a blind spot as a guess, or convert it into a scouting target.",
+  "references": [
+    "docs/unknown-finding-v2.md:28-29",
+    "skills/discovery/SKILL.md:86-99"
+  ],
+  "turns": [
+    {
+      "role": "user",
+      "text": "We need to improve this research result, but don't bother looking anything up yet."
+    },
+    {
+      "role": "assistant",
+      "phase": "P1_SCOUT",
+      "visible": false,
+      "kind": "tool_scout",
+      "text": "The user's instruction asks to skip lookup, so unsupported items must stay guesses or scouting targets.",
+      "evidenceRefs": ["skills/discovery/SKILL.md:99"]
+    },
+    {
+      "role": "assistant",
+      "phase": "P2_REPORT",
+      "visible": true,
+      "kind": "scout_report",
+      "artifacts": ["scout_report"],
+      "text": "Scout report: without source inspection, I can only mark likely risks as guesses or scouting targets. Where the blind spots probably are: metric validity is a scouting target, baseline fairness is a guess, and compute limits need evidence before ranking.",
+      "evidenceRefs": ["skills/discovery/SKILL.md:99"],
+      "blindspots": [
+        {
+          "text": "Metric validity might be the main risk.",
+          "scoutingTarget": true
+        },
+        {
+          "text": "Baseline fairness could be weak.",
+          "guess": true
+        },
+        {
+          "text": "Compute limits need source evidence before they can be ranked.",
+          "scoutingTarget": true
+        }
+      ],
+      "questions": []
+    }
+  ]
+}

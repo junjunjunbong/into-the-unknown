@@ -1,6 +1,6 @@
 # into-the-unknown
 
-**"내가 모르는 것"을 — 고치기 비싸지기 전에 — 발견하게 해주는 Claude Code 플러그인.**
+**Claude Code와 Codex에서 "내가 모르는 것"을 — 고치기 비싸지기 전에 — 발견하게 해주는 플러그인.**
 
 Claude Code 팀 [Thariq(@trq212)](https://x.com/trq212)의 아티클 [*A Field Guide to Fable: Finding Your Unknowns*](https://x.com/trq212/article/2073100352921215386)의 기법들을 10개의 스킬로 패키징했습니다.
 
@@ -9,6 +9,8 @@ Claude Code 팀 [Thariq(@trq212)](https://x.com/trq212)의 아티클 [*A Field G
 🇺🇸 [English README](README.md)
 
 ## 설치
+
+두 클라이언트는 같은 스킬 세트를 노출합니다. 다만 플러그인 관리와 로컬 checkout 문법은 클라이언트별로 다릅니다.
 
 ### Claude Code
 
@@ -38,6 +40,8 @@ codex plugin add into-the-unknown@into-the-unknown
 ```
 
 ## 빠른 시작
+
+스킬 이름은 공유 제품 표면이므로 slash command 형태로 표시합니다. 실제 호출 방식은 각 환경이 제공하는 클라이언트별 문법을 따르면 됩니다.
 
 두 커맨드로 사용량의 80%가 해결됩니다:
 
@@ -101,7 +105,8 @@ codex plugin add into-the-unknown@into-the-unknown
 
 ```
 .unknowns/
-  ledger.md               ← 모든 스킬       번호 붙은 U# 항목, open → closed
+  ledger.md               ← 모든 스킬       조용한 사람용 색인, open → closed
+  state.jsonl             ← 모든 스킬       기계 복구 이벤트
   map.md                  ← /discovery      knowns/unknowns 2×2
   blindspot-<topic>.md    ← /blindspot     물어볼 줄도 몰랐던 것들
   brainstorm-<topic>.html ← /brainstorm    반응하기 위한 일회용 프로토타입
@@ -112,13 +117,15 @@ codex plugin add into-the-unknown@into-the-unknown
 implementation-notes.md   ← /impl-notes    이탈 로그 (아티클대로 레포 루트에)
 ```
 
-스킬마다 템플릿이 내장되어 있어(디자인 방향 비교 페이지, 채점 내장 퀴즈, 구현 노트 양식, 결정 우선 계획서, 피치 문서) Claude가 매번 포맷을 즉흥으로 만들지 않고 검증된 형식을 채웁니다.
+스킬마다 템플릿이 내장되어 있어(디자인 방향 비교 페이지, 채점 내장 퀴즈, 구현 노트 양식, 결정 우선 계획서, 피치 문서) 어시스턴트가 매번 포맷을 즉흥으로 만들지 않고 검증된 형식을 채웁니다.
 
 ### 원장(ledger): 조용한 장부, 엄격한 닫힘
 
-`.unknowns/ledger.md`는 열린 unknown이 세션을 넘어 잊히지 않게 하는 장치입니다 — 단, **Claude의 장부이지 당신의 숙제가 아닙니다**. 분리는 이렇습니다: **파일 갱신은 의무**(모든 스킬이 시작할 때 조용히 읽고 끝날 때 변화를 기록 — 연속성이 누군가의 기억력에 의존하지 않도록), **채팅은 침묵**(당신이 관리할 일도, 보고받을 일도 없음). 당신에게 보이는 건 뭔가 움직였을 때의 평문 한 줄뿐: *"확정: 밀도 높은 테이블. 열림: 충돌 정책 — 기본값 last-write-wins."*
+`.unknowns/ledger.md`는 열린 unknown이 세션을 넘어 잊히지 않게 하는 장치입니다 — 단, **에이전트가 소유한 장부이지 당신의 숙제가 아닙니다**. 분리는 이렇습니다: **파일 갱신은 의무**(모든 스킬이 시작할 때 조용히 읽고 끝날 때 변화를 기록 — 연속성이 누군가의 기억력에 의존하지 않도록), **채팅은 침묵**(당신이 관리할 일도, 보고받을 일도 없음). 당신에게 보이는 건 뭔가 움직였을 때의 평문 한 줄뿐: *"확정: 밀도 높은 테이블. 열림: 충돌 정책 — 기본값 last-write-wins."*
 
-닫힘 규칙은 일부러 엄격합니다: unknown은 **당신의** 발화로만 닫힙니다 — 당신이 내린 결정, 당신이 말한 취향 기준, 당신이 통과한 teach-back(`/blindspot`은 리포트 후 그 내용으로 확인 질문을 합니다). Claude가 문서에 답을 적는 건 닫힘이 아닙니다 — unknown을 당신 머리에서 파일로 옮겼을 뿐이니까요.
+필드 단위 계약은 [docs/unknowns-state-contract.md](docs/unknowns-state-contract.md)에 있습니다. `ledger.md`는 조용한 색인으로 남고, `state.jsonl`은 `phase`, `resume_cursor`, `owner_action`, `why_stopped`, `closure_evidence`를 기록해 다음 세션이 이어받을 수 있게 합니다.
+
+닫힘 규칙은 일부러 엄격합니다: unknown은 **당신의** 발화로만 닫힙니다 — 당신이 내린 결정, 당신이 말한 취향 기준, 당신이 통과한 teach-back(`/blindspot`은 리포트 후 그 내용으로 확인 질문을 합니다). 어시스턴트가 문서에 답을 적는 건 닫힘이 아닙니다 — unknown을 당신 머리에서 파일로 옮겼을 뿐이니까요.
 
 같은 맥락에서 `/discovery`는 **진단이 아니라 가설**로 시작합니다: 작은 초안 지도(5–8개 항목, 추측엔 추측 표시, 당신에 관한 건 질문형)를 먼저 내밀고, 당신이 정정한 뒤에야 기록하고 라우팅합니다. 당신의 "아니, 사실은…" 한 마디 한 마디가 이 메커니즘이 작동하는 순간입니다.
 

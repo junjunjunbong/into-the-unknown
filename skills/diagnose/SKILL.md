@@ -8,7 +8,7 @@ argument-hint: [what came back wrong]
 
 > **No-input gate:** if invoked with no arguments and the conversation doesn't already identify what came back wrong, your entire response is one question asking for it. Do not write files, produce artifacts, or demonstrate on an invented example until it's named.
 
-> "When a long-horizon task comes back wrong, it's likely you need to spend more time defining your unknowns or creating an implementation plan that allows for Claude to improvise through them."
+> "When a long-horizon task comes back wrong, it's likely you need to spend more time defining your unknowns or creating an implementation plan that allows for the agent to improvise through them."
 
 A wrong result is not (usually) a model failure — it's **data about the gap between the map and the territory**. The instinct is to patch the prompt and rerun; resist it until you know which unknown caused the miss, or the retry inherits the same gap. Each diagnosed misfire also converts an unknown into intuition — this is how the user gets better at agentic coding, which is the real long game.
 
@@ -22,7 +22,7 @@ Then find the *earliest* point where the work went somewhere the user didn't wan
 - Check `.unknowns/decisions.md` and the plan: was the fatal choice recorded anywhere, or was it never surfaced as a choice at all?
 - Walk the diff / conversation backward from the wrong outcome to the first decision that presupposed it.
 
-Name the divergence in one sentence: "At {point}, Claude assumed {X}; you wanted {Y}."
+Name the divergence in one sentence: "At {point}, the agent assumed {X}; you wanted {Y}."
 
 ## Step 2 — Classify the missed unknown
 
@@ -61,5 +61,5 @@ Don't rebuild from scratch reflexively — say which parts of the existing work 
 
 - **Start — always**: if the file exists, read it silently. Don't re-ask what's already settled; do target what's open.
 - **End — always**: if this pass opened or settled ANY unknown, write the delta to the file before finishing (create the file on its first real entry). This write is non-negotiable — skipping it is how continuity between sessions dies. If nothing opened or settled, leave the file alone.
-- **Chat side — quiet**: never recite the ledger, never ask the user to read or maintain it, never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
+- **Chat side — quiet**: keep ledger details out of chat, keep file upkeep agent-owned, and never block on it. At most one plain sentence of movement ("Settled: dense tables. Still open: conflict policy — defaulting to last-write-wins."), skipped when nothing moved. Mention a `U#` only when it disambiguates.
 - **What counts as settled**: the diagnosis retroactively names the item that was missed; the banked lesson settles it. Settled means the *user* said or confirmed it — writing it into a report does not count.
